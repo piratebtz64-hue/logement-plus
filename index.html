@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Logement Plus</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow-x:hidden;font-family:Inter,-apple-system,sans-serif;background:#0f172a;color:#1e293b}
+.hidden{display:none!important}
+#mode{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(160deg,#0f172a,#1e3a5f)}
+.card{background:#fff;border-radius:24px;padding:36px 24px;width:100%;max-width:360px;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,.4)}
+.card h1{font-size:26px;color:#1a5f7a;margin-bottom:6px}
+.card .sub{font-size:14px;color:#64748b;margin-bottom:8px}
+.card .desc{font-size:15px;margin-bottom:28px;line-height:1.4}
+.card .note{margin-top:24px;font-size:12px;color:#64748b;line-height:1.4}
+.btn{border:none;cursor:pointer;font-family:inherit;font-weight:600;border-radius:12px;font-size:16px;padding:16px;width:100%;margin-bottom:12px}
+.btn-p{background:#1a5f7a;color:#fff}
+.btn-s{background:#f1f5f9;color:#1e293b}
+.app{min-height:100vh;min-height:100dvh;background:#f5f7fa;display:flex;flex-direction:column}
+.header{background:#1a5f7a;color:#fff;padding:14px 16px;position:sticky;top:0;z-index:50}
+.header.dark{background:#0f3a4f}
+.header-inner{display:flex;justify-content:space-between;align-items:center}
+.app-name{font-size:12px;opacity:.85}
+.user{font-size:17px;font-weight:600;margin-top:2px}
+.btn-icon{background:rgba(255,255,255,.15);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;display:flex;padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px));z-index:100}
+.nav button{flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;color:#64748b;padding:6px 2px;min-width:0}
+.nav button.active{color:#1a5f7a;font-weight:600}
+.nav .ico{font-size:20px}
+.content{flex:1;padding:16px 16px 90px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.screen{display:none}
+.screen.active{display:block}
+.back{background:none;border:none;font-size:22px;padding:4px 6px;margin-right:8px}
+h2{font-size:18px;font-weight:700;margin-bottom:16px;line-height:1.3}
+.action{width:100%;background:linear-gradient(135deg,#2e8b57,#247a4a);color:#fff;border:none;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:14px;text-align:left;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.action.secondary{background:linear-gradient(135deg,#1a5f7a,#134b61)}
+.action .ico{font-size:26px}
+.action strong{display:block;font-size:16px}
+.action span{font-size:13px;opacity:.9}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.quick button{background:#fff;border:none;border-radius:14px;padding:16px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;box-shadow:0 4px 20px rgba(0,0,0,.06);font-size:13px;font-weight:500}
+.info{background:#fff;border-radius:16px;padding:16px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.info h3{font-size:14px;margin-bottom:4px}
+.info p{font-size:13px;color:#64748b}
+.link{background:none;border:none;color:#1a5f7a;font-size:14px;font-weight:600;margin-top:8px}
+label{display:block;font-size:14px;font-weight:600;margin-bottom:8px}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.type{padding:14px 10px;border-radius:12px;border:2px solid #e2e8f0;background:#fff;font-size:13px;font-weight:600}
+.type.sel{border-color:#2e8b57;background:#e8f5ee;color:#2e8b57}
+.type.urg.sel{border-color:#c0392b;background:#fdf0ef;color:#c0392b}
+textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;font-family:inherit;font-size:15px;min-height:100px;margin-bottom:12px}
+.full{width:100%;padding:15px;border-radius:12px;border:none;font-weight:600;font-size:16px;background:#1a5f7a;color:#fff;margin-top:6px}
+.outline{width:100%;padding:12px;border-radius:12px;border:1.5px solid #e2e8f0;background:transparent;font-weight:600;margin-bottom:12px}
+.chat{display:flex;flex-direction:column;height:calc(100dvh - 160px)}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding-bottom:12px}
+.msg{max-width:82%}
+.msg.r{align-self:flex-start}
+.msg.s{align-self:flex-end}
+.bubble{padding:11px 14px;border-radius:16px;font-size:14px;line-height:1.4;word-break:break-word}
+.msg.r .bubble{background:#fff;border-bottom-left-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.msg.s .bubble{background:#2e8b57;color:#fff;border-bottom-right-radius:4px}
+.time{font-size:11px;color:#64748b;margin-top:3px;padding:0 4px}
+.msg.s .time{text-align:right}
+.input{display:flex;gap:8px;padding:10px 0}
+.input input{flex:1;border:none;background:#fff;border-radius:24px;padding:11px 16px;font-size:15px;box-shadow:0 4px 20px rgba(0,0,0,.06);min-width:0}
+.send{width:44px;height:44px;border-radius:50%;background:#1a5f7a;color:#fff;border:none;font-size:18px}
+.item{background:#fff;border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.item .date{font-size:15px;font-weight:600;margin-bottom:4px}
+.item .with{font-size:13px;color:#64748b;margin-bottom:10px}
+.item .actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn-sm{padding:8px 14px;border-radius:8px;font-size:13px;border:none;background:#f1f5f9;font-weight:600}
+.btn-sm.p{background:#2e8b57;color:#fff}
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.badge.ok{background:#e8f5ee;color:#2e8b57}
+.badge.warn{background:#fef5e7;color:#d68910}
+.badge.bad{background:#fdf0ef;color:#c0392b}
+.badge.recu{background:#e0f2fe;color:#0369a1}
+.badge.rappel{background:#fef3c7;color:#b45309}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.stat{background:#fff;border-radius:14px;padding:16px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.stat .n{font-size:26px;font-weight:700;color:#1a5f7a}
+.stat .l{font-size:12px;color:#64748b}
+.req.urgent{border-left:4px solid #c0392b}
+.req .top{display:flex;justify-content:space-between;margin-bottom:6px}
+.req .title{font-size:14px;font-weight:600;margin-bottom:4px}
+.req .desc{font-size:13px;color:#64748b;margin-bottom:10px}
+.quick-replies{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid #e2e8f0}
+.quick-replies button{padding:8px 12px;border-radius:20px;border:1px solid #e2e8f0;background:#fff;font-size:12px;font-weight:500;color:#1e293b}
+.free-reply{margin-top:12px;padding-top:12px;border-top:1px solid #e2e8f0}
+.free-reply textarea{min-height:70px;margin-bottom:8px}
+.status-line{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px}
+.dossier-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f1f5f9}
+.dossier-item:last-child{border-bottom:none}
+.dossier-check{width:22px;height:22px;border-radius:6px;border:2px solid #cbd5e1;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;cursor:pointer}
+.dossier-check.done{background:#2e8b57;border-color:#2e8b57;color:#fff}
+.dossier-text{flex:1;font-size:14px}
+.dossier-text.done{text-decoration:line-through;color:#94a3b8}
+.rappel-banner{background:#fef3c7;border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:14px;color:#92400e}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:12px 20px;border-radius:30px;font-size:14px;font-weight:500;z-index:200;opacity:0;transition:opacity .3s;max-width:90%;text-align:center}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div id="mode">
+  <div class="card">
+    <h1>Logement Plus</h1>
+    <p class="sub">Démonstration privée</p>
+    <p class="desc">Choisissez un profil pour explorer l’outil</p>
+    <button class="btn btn-p" onclick="go('res')">Je suis un résident</button>
+    <button class="btn btn-s" onclick="go('edu')">Je suis un éducateur</button>
+    <p class="note">Maquette interactive. Aucune donnée n’est enregistrée.</p>
+  </div>
+</div>
+
+<div id="res" class="app hidden">
+  <header class="header">
+    <div class="header-inner">
+      <div><div class="app-name">Logement Plus</div><div class="user">Bonjour, Guillaume</div></div>
+      <button class="btn-icon" onclick="back()">↻</button>
+    </div>
+  </header>
+  <nav class="nav">
+    <button class="active" data-s="home" onclick="show('home')"><span class="ico">🏠</span>Accueil</button>
+    <button data-s="msg" onclick="show('msg')"><span class="ico">💬</span>Messages</button>
+    <button data-s="rdv" onclick="show('rdv')"><span class="ico">📅</span>RDV</button>
+    <button data-s="dossier" onclick="show('dossier')"><span class="ico">📁</span>Dossier</button>
+  </nav>
+  <main class="content">
+    <section id="home" class="screen active">
+      <div class="rappel-banner">
+        <span>🔔</span>
+        <div><strong>Rappel</strong> : Rendez-vous demain à 10h30 avec Marie</div>
+      </div>
+      <h2>Que souhaitez-vous faire ?</h2>
+      <button class="action" onclick="show('signal')">
+        <span class="ico">🔧</span>
+        <div><strong>Signaler un souci</strong><span>Petit problème ou urgent</span></div>
+      </button>
+      <button class="action secondary" onclick="show('conflit')">
+        <span class="ico">👥</span>
+        <div><strong>Problème entre résidents</strong><span>Conflit, bruit, voisinage…</span></div>
+      </button>
+      <div class="quick">
+        <button onclick="show('msg')"><span class="ico">💬</span>Messages</button>
+        <button onclick="show('dossier')"><span class="ico">📁</span>Mon dossier</button>
+      </div>
+      <div class="info">
+        <h3>Votre référent</h3>
+        <p>Marie L. • Disponible</p>
+        <button class="link" onclick="show('msg')">Envoyer un message</button>
+      </div>
+    </section>
+
+    <section id="signal" class="screen">
+      <div style="display:flex;align-items:center;margin-bottom:16px">
+        <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Signaler un souci</h2>
+      </div>
+      <label>Type de problème</label>
+      <div class="types">
+        <button class="type" onclick="sel(this)">Petit problème</button>
+        <button class="type urg" onclick="sel(this)">Problème urgent</button>
+      </div>
+      <label>Description</label>
+      <textarea id="desc" placeholder="Ex : Le lavabo fuit depuis ce matin..."></textarea>
+      <button class="outline" onclick="alert('Photo disponible en version finale')">+ Ajouter une photo</button>
+      <button class="full" onclick="sendSignal()">Envoyer le signalement</button>
+    </section>
+
+    <section id="conflit" class="screen">
+      <div style="display:flex;align-items:center;margin-bottom:16px">
+        <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Problème entre résidents</h2>
+      </div>
+      <label>De quoi s’agit-il ?</label>
+      <div class="types" style="grid-template-columns:1fr">
+        <button class="type" onclick="sel(this)">Bruit / Nuisances</button>
+        <button class="type" onclick="sel(this)">Conflit / Tension</button>
+        <button class="type" onclick="sel(this)">Autre</button>
+      </div>
+      <label>Description (anonyme possible)</label>
+      <textarea id="desc-conflit" placeholder="Décrivez la situation..."></textarea>
+      <button class="full" onclick="sendConflit()">Envoyer</button>
+    </section>
+
+    <section id="msg" class="screen">
+      <div style="display:flex;align-items:center;margin-bottom:16px">
+        <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Messages</h2>
+      </div>
+      <div class="chat">
+        <div class="msgs" id="msgs">
+          <div class="msg r"><div class="bubble">Bonjour Guillaume, j’ai bien reçu votre signalement. On s’en occupe.</div><div class="time">Aujourd’hui • 09:42</div></div>
+          <div class="msg s"><div class="bubble">Merci beaucoup Marie !</div><div class="time">09:45</div></div>
+        </div>
+        <div class="input">
+          <input id="cin" placeholder="Écrire un message..." onkeypress="if(event.key==='Enter')sendMsg()">
+          <button class="send" onclick="sendMsg()">↑</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="rdv" class="screen">
+      <div style="display:flex;align-items:center;margin-bottom:16px">
+        <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Mes rendez-vous</h2>
+      </div>
+      <div class="item">
+        <div class="date">Mardi 26 août • 10h30</div>
+        <div class="with">Avec Marie L. (référente)</div>
+        <div class="status-line"><span class="badge rappel">Rappel activé</span></div>
+        <div class="actions" style="margin-top:10px">
+          <button class="btn-sm p" onclick="this.textContent='Confirmé ✓';this.style.background='#2e8b57';this.style.color='#fff';toast('Rendez-vous confirmé')">Confirmer</button>
+          <button class="btn-sm" onclick="toast('Demande de report envoyée')">Reporter</button>
+        </div>
+      </div>
+      <div class="item" style="opacity:.7">
+        <div class="date">Lundi 18 août • 14h00</div>
+        <div class="with">Avec Marie L.</div>
+        <div style="font-size:13px;color:#2e8b57;font-weight:500">✓ Effectué</div>
+      </div>
+    </section>
+
+    <section id="dossier" class="screen">
+      <div style="display:flex;align-items:center;margin-bottom:16px">
+        <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Mon dossier</h2>
+      </div>
+      <div class="item">
+        <div style="font-size:14px;font-weight:600;margin-bottom:12px;color:#64748b">Étapes en cours</div>
+        <div class="dossier-item">
+          <div class="dossier-check done" onclick="toggleCheck(this)">✓</div>
+          <div class="dossier-text done">Dossier CAF déposé</div>
+        </div>
+        <div class="dossier-item">
+          <div class="dossier-check done" onclick="toggleCheck(this)">✓</div>
+          <div class="dossier-text done">Attestation d’hébergement</div>
+        </div>
+        <div class="dossier-item">
+          <div class="dossier-check" onclick="toggleCheck(this)"></div>
+          <div class="dossier-text">Rendez-vous médecin</div>
+        </div>
+        <div class="dossier-item">
+          <div class="dossier-check" onclick="toggleCheck(this)"></div>
+          <div class="dossier-text">Demande de titre de séjour</div>
+        </div>
+        <div class="dossier-item">
+          <div class="dossier-check" onclick="toggleCheck(this)"></div>
+          <div class="dossier-text">Ouverture compte bancaire</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:#64748b;margin-top:12px">Ces étapes sont mises à jour avec votre référent.</p>
+    </section>
+  </main>
+</div>
+
+<div id="edu" class="app hidden">
+  <header class="header dark">
+    <div class="header-inner">
+      <div><div class="app-name">Logement Plus</div><div class="user">Espace éducateur</div></div>
+      <button class="btn-icon" onclick="back()">↻</button>
+    </div>
+  </header>
+  <nav class="nav">
+    <button class="active" data-s="dash" onclick="showE('dash')"><span class="ico">📊</span>Demandes</button>
+    <button data-s="emsg" onclick="showE('emsg')"><span class="ico">💬</span>Messages</button>
+    <button data-s="erdv" onclick="showE('erdv')"><span class="ico">📅</span>Agenda</button>
+    <button data-s="edossier" onclick="showE('edossier')"><span class="ico">📁</span>Dossiers</button>
+  </nav>
+  <main class="content">
+    <section id="dash" class="screen active">
+      <div class="stats">
+        <div class="stat"><div class="n">3</div><div class="l">En attente</div></div>
+        <div class="stat"><div class="n">1</div><div class="l">Urgent</div></div>
+      </div>
+      <div style="font-size:14px;font-weight:600;color:#64748b;margin-bottom:10px">Demandes ouvertes</div>
+      
+      <div class="item req urgent" id="req1">
+        <div class="top"><span class="badge bad">URGENT</span><span style="font-size:12px;color:#64748b">Il y a 12 min</span></div>
+        <div class="title">Jean D. • Lavabo qui fuit</div>
+        <div class="desc">Fuite importante dans la salle de bain…</div>
+        <div class="status-line"><span class="badge recu">Reçu</span></div>
+        <div class="actions">
+          <button class="btn-sm p" onclick="takeCharge(this,'req1')">Prendre en charge</button>
+        </div>
+        <div class="quick-replies">
+          <button onclick="quickReply(this,'J’ai bien reçu, on s’en occupe')">J’ai bien reçu</button>
+          <button onclick="quickReply(this,'C’est en cours')">C’est en cours</button>
+          <button onclick="quickReply(this,'On passe demain')">On passe demain</button>
+          <button onclick="quickReply(this,'Peux-tu préciser ?')">Peux-tu préciser ?</button>
+        </div>
+        <div class="free-reply">
+          <textarea id="free1" placeholder="Écrire une réponse libre..."></textarea>
+          <button class="btn-sm p" onclick="sendFree('free1')">Envoyer mon message</button>
+        </div>
+      </div>
+
+      <div class="item req" id="req2">
+        <div class="top"><span class="badge ok">Petit souci</span><span style="font-size:12px;color:#64748b">Il y a 1h</span></div>
+        <div class="title">Sophie M. • Ampoule grillée</div>
+        <div class="status-line"><span class="badge recu">Reçu</span></div>
+        <div class="actions">
+          <button class="btn-sm p" onclick="takeCharge(this,'req2')">Prendre en charge</button>
+        </div>
+        <div class="quick-replies">
+          <button onclick="quickReply(this,'J’ai bien reçu')">J’ai bien reçu</button>
+          <button onclick="quickReply(this,'C’est en cours')">C’est en cours</button>
+          <button onclick="quickReply(this,'Résolu')">Marquer résolu</button>
+        </div>
+        <div class="free-reply">
+          <textarea id="free2" placeholder="Écrire une réponse libre..."></textarea>
+          <button class="btn-sm p" onclick="sendFree('free2')">Envoyer mon message</button>
+        </div>
+      </div>
+
+      <div class="item req" id="req3">
+        <div class="top"><span class="badge ok">Petit souci</span><span style="font-size:12px;color:#64748b">Hier</span></div>
+        <div class="title">Karim B. • Volet bloqué</div>
+        <div class="status-line"><span class="badge warn">En cours</span></div>
+        <div class="actions">
+          <button class="btn-sm p" onclick="toast('Déjà en cours')">Voir</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="emsg" class="screen">
+      <h2>Messages</h2>
+      <div class="item" style="display:flex;align-items:center;gap:12px">
+        <div style="width:42px;height:42px;border-radius:50%;background:#1a5f7a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600">G</div>
+        <div style="flex:1"><div style="font-weight:600;font-size:14px">Guillaume</div><div style="font-size:13px;color:#64748b">Merci beaucoup Marie !</div></div>
+        <div style="font-size:11px;color:#64748b">09:45</div>
+      </div>
+      <div class="item" style="display:flex;align-items:center;gap:12px">
+        <div style="width:42px;height:42px;border-radius:50%;background:#1a5f7a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600">J</div>
+        <div style="flex:1"><div style="font-weight:600;font-size:14px">Jean D.</div><div style="font-size:13px;color:#64748b">Le lavabo fuit toujours…</div></div>
+        <div style="font-size:11px;color:#64748b">09:30</div>
+      </div>
+      <div class="item" style="display:flex;align-items:center;gap:12px">
+        <div style="width:42px;height:42px;border-radius:50%;background:#1a5f7a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600">S</div>
+        <div style="flex:1"><div style="font-weight:600;font-size:14px">Sophie M.</div><div style="font-size:13px;color:#64748b">Ok merci</div></div>
+        <div style="font-size:11px;color:#64748b">Hier</div>
+      </div>
+    </section>
+
+    <section id="erdv" class="screen">
+      <h2>Agenda</h2>
+      <div class="item">
+        <div class="date">Mardi 26 août • 10h30</div>
+        <div class="with">Guillaume – Suivi mensuel</div>
+        <div class="status-line"><span class="badge ok">Confirmé</span></div>
+      </div>
+      <div class="item">
+        <div class="date">Mercredi 27 août • 15h00</div>
+        <div class="with">Sophie M. – Visite logement</div>
+        <div class="status-line"><span class="badge rappel">Rappel activé</span></div>
+      </div>
+      <div class="item">
+        <div class="date">Jeudi 28 août • 11h00</div>
+        <div class="with">Karim B. – Point administratif</div>
+      </div>
+    </section>
+
+    <section id="edossier" class="screen">
+      <h2>Dossiers résidents</h2>
+      <div class="item">
+        <div style="font-weight:600;margin-bottom:8px">Guillaume</div>
+        <div class="dossier-item">
+          <div class="dossier-check done">✓</div>
+          <div class="dossier-text done">Dossier CAF déposé</div>
+        </div>
+        <div class="dossier-item">
+          <div class="dossier-check done">✓</div>
+          <div class="dossier-text done">Attestation d’hébergement</div>
+        </div>
+        <div class="dossier-item">
+          <div class="dossier-check" onclick="toggleCheck(this)"></div>
+          <div class="dossier-text">Rendez-vous médecin</div>
+        </div>
+        <div class="dossier-item">
+          <div class="dossier-check" onclick="toggleCheck(this)"></div>
+          <div class="dossier-text">Demande de titre de séjour</div>
+        </div>
+        <div class="dossier-item">
+          <div class="dossier-check" onclick="toggleCheck(this)"></div>
+          <div class="dossier-text">Ouverture compte bancaire</div>
+        </div>
+        <button class="btn-sm p" style="margin-top:12px" onclick="toast('Mise à jour enregistrée')">Enregistrer</button>
+      </div>
+      <div class="item">
+        <div style="font-weight:600;margin-bottom:8px">Jean D.</div>
+        <div class="dossier-item">
+          <div class="dossier-check done">✓</div>
+          <div class="dossier-text done">Dossier social ouvert</div>
+        </div>
+        <div class="dossier-item">
+          <div class="dossier-check" onclick="toggleCheck(this)"></div>
+          <div class="dossier-text">Suivi santé</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+function go(m){document.getElementById('mode').classList.add('hidden');document.getElementById(m).classList.remove('hidden');if(m==='res')show('home');else showE('dash')}
+function back(){document.getElementById('mode').classList.remove('hidden');document.getElementById('res').classList.add('hidden');document.getElementById('edu').classList.add('hidden')}
+function show(n){document.querySelectorAll('#res .screen').forEach(s=>s.classList.remove('active'));document.getElementById(n).classList.add('active');document.querySelectorAll('#res .nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===n))}
+function showE(n){document.querySelectorAll('#edu .screen').forEach(s=>s.classList.remove('active'));document.getElementById(n).classList.add('active');document.querySelectorAll('#edu .nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===n))}
+function sel(b){document.querySelectorAll('.type').forEach(t=>t.classList.remove('sel'));b.classList.add('sel')}
+function sendSignal(){if(!document.querySelector('.type.sel')){toast('Choisissez le type');return}if(!document.getElementById('desc').value.trim()){toast('Ajoutez une description');return}toast('Signalement envoyé ✓');document.getElementById('desc').value='';document.querySelectorAll('.type').forEach(t=>t.classList.remove('sel'));setTimeout(()=>show('home'),1000)}
+function sendConflit(){if(!document.getElementById('desc-conflit').value.trim()){toast('Ajoutez une description');return}toast('Signalement envoyé ✓');document.getElementById('desc-conflit').value='';document.querySelectorAll('.type').forEach(t=>t.classList.remove('sel'));setTimeout(()=>show('home'),1000)}
+function sendMsg(){const i=document.getElementById('cin'),t=i.value.trim();if(!t)return;const m=document.createElement('div');m.className='msg s';m.innerHTML='<div class="bubble">'+t.replace(/</g,'&lt;')+'</div><div class="time">À l\'instant</div>';document.getElementById('msgs').appendChild(m);i.value='';document.getElementById('msgs').scrollTop=9999}
+function toast(m){let t=document.querySelector('.toast');if(!t){t=document.createElement('div');t.className='toast';document.body.appendChild(t)}t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+function takeCharge(btn,id){const card=document.getElementById(id);const status=card.querySelector('.status-line .badge');if(status){status.className='badge warn';status.textContent='En cours'}btn.textContent='En cours';btn.disabled=true;toast('Pris en charge')}
+function quickReply(btn,text){toast('Réponse envoyée : '+text);btn.style.background='#e8f5ee';btn.style.borderColor='#2e8b57'}
+function sendFree(id){const t=document.getElementById(id).value.trim();if(!t){toast('Écrivez un message');return}toast('Message envoyé');document.getElementById(id).value=''}
+function toggleCheck(el){el.classList.toggle('done');const text=el.nextElementSibling;text.classList.toggle('done');if(el.classList.contains('done'))el.textContent='✓';else el.textContent=''}
+</script>
+</body>
+</html>
