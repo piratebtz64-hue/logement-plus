@@ -111,6 +111,7 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
 .hist-content strong{display:block;margin-bottom:2px;color:#0f172a}
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:12px 20px;border-radius:30px;font-size:14px;font-weight:500;z-index:200;opacity:0;transition:opacity .3s;max-width:90%;text-align:center}
 .toast.show{opacity:1}
+.alert-badge{display:inline-block;background:#c0392b;color:#fff;font-size:11px;font-weight:600;padding:2px 8px;border-radius:12px;margin-left:8px}
 </style>
 </head>
 <body>
@@ -256,10 +257,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
           <div class="hist-date">5 août</div>
           <div class="hist-content"><strong>Problème résolu</strong>Ampoule grillée</div>
         </div>
-        <div class="hist-item">
-          <div class="hist-date">28 juil.</div>
-          <div class="hist-content"><strong>Entrée dans le dispositif</strong>Accueil et ouverture du dossier</div>
-        </div>
       </div>
     </section>
 
@@ -293,11 +290,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
           <button class="btn-sm" onclick="toast('Demande de report envoyée')">Reporter</button>
         </div>
       </div>
-      <div class="item" style="opacity:.75">
-        <div class="date">Lundi 18 août • 14h00</div>
-        <div class="with">Avec Marie L.</div>
-        <div style="font-size:13px;color:#2e8b57;font-weight:500;margin-top:6px">✓ Effectué</div>
-      </div>
     </section>
 
     <section id="dossier" class="screen">
@@ -329,19 +321,56 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </div>
   </header>
   <nav class="nav">
-    <button class="active" data-s="dash" onclick="showE('dash')"><span class="ico">📊</span>Demandes</button>
+    <button class="active" data-s="ehome" onclick="showE('ehome')"><span class="ico">🏠</span>Accueil</button>
+    <button data-s="dash" onclick="showE('dash')"><span class="ico">📊</span>Demandes</button>
     <button data-s="emsg" onclick="showE('emsg')"><span class="ico">💬</span>Messages</button>
     <button data-s="erdv" onclick="showE('erdv')"><span class="ico">📅</span>Agenda</button>
     <button data-s="edossier" onclick="showE('edossier')"><span class="ico">📁</span>Dossiers</button>
   </nav>
   <main class="content">
 
-    <section id="dash" class="screen active">
+    <!-- NOUVELLE PAGE D’ACCUEIL ÉDUCATEUR -->
+    <section id="ehome" class="screen active">
+      <div class="notif-banner">
+        <span>🚨</span>
+        <div><strong>1 alerte urgente</strong> + 1 signalement santé</div>
+      </div>
+      <h2>Que souhaitez-vous faire ?</h2>
+
+      <button class="action urgent" onclick="showE('dash')">
+        <span class="ico">🚨</span>
+        <div><strong>Demandes urgentes</strong><span>1 alerte prioritaire</span></div>
+      </button>
+
+      <button class="action" onclick="showE('dash')">
+        <span class="ico">🔧</span>
+        <div><strong>Toutes les demandes</strong><span>3 en attente</span></div>
+      </button>
+
+      <button class="action secondary" onclick="showE('esante')">
+        <span class="ico">🩺</span>
+        <div><strong>Suivi santé</strong><span>Alertes + dossiers santé</span></div>
+      </button>
+
+      <div class="quick">
+        <button onclick="showE('emsg')"><span class="ico">💬</span>Messages</button>
+        <button onclick="showE('erdv')"><span class="ico">📅</span>Agenda</button>
+      </div>
+
+      <div class="info">
+        <h3>Résumé du jour</h3>
+        <p>1 urgence • 2 RDV • 1 alerte santé</p>
+      </div>
+    </section>
+
+    <section id="dash" class="screen">
+      <div style="display:flex;align-items:center;margin-bottom:16px">
+        <button class="back" onclick="showE('ehome')">←</button><h2 style="margin:0">Demandes</h2>
+      </div>
       <div class="stats">
         <div class="stat"><div class="n">3</div><div class="l">En attente</div></div>
         <div class="stat"><div class="n">1</div><div class="l">Urgent</div></div>
       </div>
-      <div style="font-size:13px;font-weight:600;color:#64748b;margin-bottom:10px;text-transform:uppercase;letter-spacing:.3px">Demandes ouvertes</div>
       
       <div class="item req urgent" id="req1">
         <div class="top"><span class="badge bad">URGENT</span><span style="font-size:12px;color:#64748b">Il y a 12 min</span></div>
@@ -372,21 +401,49 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
           <button class="btn-sm" onclick="markSeen(this)">Marquer vu</button>
           <button class="btn-sm p" onclick="takeCharge(this,'req2')">Je m’en occupe</button>
         </div>
-        <div class="quick-replies">
-          <button onclick="quickReply(this,'J’ai bien reçu')">J’ai bien reçu</button>
-          <button onclick="quickReply(this,'C’est en cours')">C’est en cours</button>
+      </div>
+    </section>
+
+    <!-- SUIVI SANTÉ ÉDUCATEUR -->
+    <section id="esante" class="screen">
+      <div style="display:flex;align-items:center;margin-bottom:16px">
+        <button class="back" onclick="showE('ehome')">←</button><h2 style="margin:0">Suivi santé</h2>
+      </div>
+
+      <div class="notif-banner">
+        <span>🩺</span>
+        <div><strong>Alerte</strong> : Guillaume a signalé un problème de santé</div>
+      </div>
+
+      <div class="item">
+        <div class="date">Guillaume</div>
+        <div class="with">Médecin traitant : Dr. Martin</div>
+        <div class="status-line"><span class="badge bad">Alerte santé</span></div>
+        <div class="actions">
+          <button class="btn-sm p" onclick="toast('Contact initié')">Contacter</button>
+          <button class="btn-sm" onclick="showE('edossier')">Voir le dossier</button>
         </div>
       </div>
 
-      <div class="item req" id="req3">
-        <div class="top"><span class="badge ok">Petit souci</span><span style="font-size:12px;color:#64748b">Hier</span></div>
-        <div class="title">Karim B. • Volet bloqué</div>
-        <div class="status-line"><span class="badge warn">En cours</span></div>
+      <div class="section-title">RDV santé à venir</div>
+      <div class="item">
+        <div class="date">Jeudi 28 août • 14h30</div>
+        <div class="with">Guillaume – Dr. Martin</div>
+      </div>
+      <div class="item">
+        <div class="date">Mardi 2 septembre • 10h00</div>
+        <div class="with">Guillaume – Dr. Lefebvre (Psychiatre)</div>
+      </div>
+
+      <div class="note-interne">
+        <strong>Note interne :</strong> Attention aux oublis de traitement. Suivi psychiatrique en cours.
       </div>
     </section>
 
     <section id="emsg" class="screen">
-      <h2>Messages</h2>
+      <div style="display:flex;align-items:center;margin-bottom:16px">
+        <button class="back" onclick="showE('ehome')">←</button><h2 style="margin:0">Messages</h2>
+      </div>
       <div class="item" style="display:flex;align-items:center;gap:12px">
         <div style="width:42px;height:42px;border-radius:50%;background:#1a5f7a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600">G</div>
         <div style="flex:1"><div style="font-weight:600;font-size:14px">Guillaume</div><div style="font-size:13px;color:#64748b">Merci beaucoup Marie !</div></div>
@@ -400,7 +457,9 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </section>
 
     <section id="erdv" class="screen">
-      <h2>Agenda</h2>
+      <div style="display:flex;align-items:center;margin-bottom:16px">
+        <button class="back" onclick="showE('ehome')">←</button><h2 style="margin:0">Agenda</h2>
+      </div>
       <div class="item">
         <div class="date">Mardi 26 août • 10h30</div>
         <div class="with">Guillaume – Suivi mensuel</div>
@@ -414,23 +473,11 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </section>
 
     <section id="edossier" class="screen">
-      <h2>Dossiers résidents</h2>
+      <div style="display:flex;align-items:center;margin-bottom:16px">
+        <button class="back" onclick="showE('ehome')">←</button><h2 style="margin:0">Dossiers</h2>
+      </div>
       <div class="item">
         <div style="font-weight:600;font-size:16px;margin-bottom:14px;color:#0f172a">Guillaume</div>
-
-        <div class="section-title">Historique récent</div>
-        <div class="hist-item">
-          <div class="hist-date">Aujourd’hui<br>09:42</div>
-          <div class="hist-content"><strong>Signalement lu</strong>Lavabo qui fuit</div>
-        </div>
-        <div class="hist-item">
-          <div class="hist-date">18 août</div>
-          <div class="hist-content"><strong>RDV effectué</strong>Suivi mensuel</div>
-        </div>
-        <div class="hist-item">
-          <div class="hist-date">12 août</div>
-          <div class="hist-content"><strong>Étape validée</strong>Attestation d’hébergement</div>
-        </div>
 
         <div class="section-title">Parcours</div>
         <div class="dossier-item">
@@ -440,10 +487,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
         <div class="dossier-item">
           <div class="dossier-check done clickable" onclick="toggleCheck(this)">✓</div>
           <div class="dossier-text done">Accès au logement</div>
-        </div>
-        <div class="dossier-item">
-          <div class="dossier-check done clickable" onclick="toggleCheck(this)">✓</div>
-          <div class="dossier-text done">Ouverture des droits</div>
         </div>
         <div class="dossier-item">
           <div class="dossier-check clickable" onclick="toggleCheck(this)"></div>
@@ -459,22 +502,9 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
           <h3>Médecin traitant</h3>
           <p>Dr. Martin</p>
         </div>
-        <div class="item">
-          <div class="date">Jeudi 28 août • 14h30</div>
-          <div class="with">Dr. Martin – Médecin traitant</div>
-        </div>
-        <div class="item">
-          <div class="date">Mardi 2 septembre • 10h00</div>
-          <div class="with">Dr. Lefebvre – Psychiatre</div>
-        </div>
-        <div class="section-title">Traitements</div>
-        <div class="item">
-          <div class="date">Traitement A</div>
-          <div class="with">1 comprimé le matin</div>
-        </div>
         <div class="note-interne"><strong>Note interne :</strong> Suivi psychiatrique en cours. Attention aux oublis de traitement.</div>
 
-        <button class="btn-sm p" style="margin-top:14px;width:100%" onclick="toast('Modifications enregistrées – visibles par le résident')">Enregistrer les modifications</button>
+        <button class="btn-sm p" style="margin-top:14px;width:100%" onclick="toast('Modifications enregistrées')">Enregistrer</button>
       </div>
     </section>
   </main>
@@ -485,7 +515,7 @@ function go(m){
   document.getElementById('mode').classList.add('hidden');
   document.getElementById(m).classList.remove('hidden');
   if(m==='res') show('home');
-  else showE('dash');
+  else showE('ehome');
 }
 function back(){
   document.getElementById('mode').classList.remove('hidden');
