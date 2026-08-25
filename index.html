@@ -51,8 +51,7 @@ label{display:block;font-size:14px;font-weight:600;margin-bottom:8px}
 .type{padding:14px 10px;border-radius:12px;border:2px solid #e2e8f0;background:#fff;font-size:13px;font-weight:600}
 .type.sel{border-color:#2e8b57;background:#e8f5ee;color:#2e8b57}
 .type.urg.sel{border-color:#c0392b;background:#fdf0ef;color:#c0392b}
-textarea,input[type=text]{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;font-family:inherit;font-size:15px;margin-bottom:12px}
-textarea{min-height:100px}
+textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;font-family:inherit;font-size:15px;min-height:100px;margin-bottom:12px}
 .full{width:100%;padding:15px;border-radius:12px;border:none;font-weight:600;font-size:16px;background:#1a5f7a;color:#fff;margin-top:6px}
 .outline{width:100%;padding:12px;border-radius:12px;border:1.5px solid #e2e8f0;background:transparent;font-weight:600;margin-bottom:12px}
 .chat{display:flex;flex-direction:column;height:calc(100dvh - 160px)}
@@ -71,7 +70,7 @@ textarea{min-height:100px}
 .voice-btn{width:44px;height:44px;border-radius:50%;background:#f1f5f9;border:none;font-size:18px}
 .item{background:#fff;border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
 .item .date{font-size:15px;font-weight:600;margin-bottom:4px}
-.item .with{font-size:13px;color:#64748b;margin-bottom:10px}
+.item .with{font-size:13px;color:#64748b;margin-bottom:6px}
 .item .actions{display:flex;gap:8px;flex-wrap:wrap}
 .btn-sm{padding:8px 14px;border-radius:8px;font-size:13px;border:none;background:#f1f5f9;font-weight:600}
 .btn-sm.p{background:#2e8b57;color:#fff}
@@ -101,6 +100,11 @@ textarea{min-height:100px}
 .notif-banner{background:#e0f2fe;border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:14px;color:#0369a1}
 .note-interne{background:#fef9c3;border-radius:10px;padding:10px 12px;margin-top:10px;font-size:13px;color:#854d0e}
 .section-title{font-size:14px;font-weight:600;color:#64748b;margin:16px 0 8px}
+.hist-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #f1f5f9}
+.hist-item:last-child{border-bottom:none}
+.hist-date{font-size:12px;color:#64748b;min-width:70px}
+.hist-content{flex:1;font-size:14px}
+.hist-content strong{display:block;margin-bottom:2px}
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:12px 20px;border-radius:30px;font-size:14px;font-weight:500;z-index:200;opacity:0;transition:opacity .3s;max-width:90%;text-align:center}
 .toast.show{opacity:1}
 </style>
@@ -140,7 +144,7 @@ textarea{min-height:100px}
       <h2>Que souhaitez-vous faire ?</h2>
       <button class="action urgent" onclick="toast('Alerte urgente envoyée ✓')">
         <span class="ico">🚨</span>
-        <div><strong>J’ai besoin d’aide urgente</strong><span>Alerte prioritaire à l’équipe</span></div>
+        <div><strong>J’ai besoin d’aide urgente</strong><span>Alerte prioritaire</span></div>
       </button>
       <button class="action" onclick="show('signal')">
         <span class="ico">🔧</span>
@@ -152,7 +156,7 @@ textarea{min-height:100px}
       </button>
       <div class="quick">
         <button onclick="show('msg')"><span class="ico">💬</span>Messages</button>
-        <button onclick="show('dossier')"><span class="ico">📁</span>Mon parcours</button>
+        <button onclick="show('histo')"><span class="ico">📋</span>Historique</button>
       </div>
     </section>
 
@@ -174,41 +178,53 @@ textarea{min-height:100px}
       <div style="display:flex;align-items:center;margin-bottom:16px">
         <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Mon suivi santé</h2>
       </div>
-
       <div class="info">
         <h3>Médecin traitant</h3>
-        <p id="medecin-name">Dr. Martin</p>
-        <button class="link" onclick="editMedecin()">Modifier</button>
+        <p>Dr. Martin</p>
       </div>
-
       <div class="section-title">Prochains rendez-vous</div>
       <div class="item">
         <div class="date">Jeudi 28 août • 14h30</div>
         <div class="with">Dr. Martin – Médecin traitant</div>
-        <div class="status-line"><span class="badge rappel">Rappel activé</span></div>
       </div>
-      <div class="item">
-        <div class="date">Mardi 2 septembre • 10h00</div>
-        <div class="with">Dr. Lefebvre – Psychiatre</div>
-      </div>
-
       <div class="section-title">Traitements en cours</div>
       <div class="item">
         <div class="date">Traitement A</div>
         <div class="with">1 comprimé le matin</div>
       </div>
+    </section>
+
+    <section id="histo" class="screen">
+      <div style="display:flex;align-items:center;margin-bottom:16px">
+        <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Mon historique</h2>
+      </div>
       <div class="item">
-        <div class="date">Traitement B</div>
-        <div class="with">2 comprimés le soir</div>
+        <div class="hist-item">
+          <div class="hist-date">Aujourd’hui<br>09:42</div>
+          <div class="hist-content"><strong>Signalement reçu</strong>Marie a marqué votre message comme lu</div>
+        </div>
+        <div class="hist-item">
+          <div class="hist-date">Aujourd’hui<br>09:15</div>
+          <div class="hist-content"><strong>Signalement envoyé</strong>Lavabo qui fuit</div>
+        </div>
+        <div class="hist-item">
+          <div class="hist-date">18 août</div>
+          <div class="hist-content"><strong>Rendez-vous effectué</strong>Suivi avec Marie L.</div>
+        </div>
+        <div class="hist-item">
+          <div class="hist-date">12 août</div>
+          <div class="hist-content"><strong>Étape validée</strong>Attestation d’hébergement</div>
+        </div>
+        <div class="hist-item">
+          <div class="hist-date">5 août</div>
+          <div class="hist-content"><strong>Problème résolu</strong>Ampoule grillée</div>
+        </div>
+        <div class="hist-item">
+          <div class="hist-date">28 juil.</div>
+          <div class="hist-content"><strong>Entrée dans le dispositif</strong>Accueil et ouverture du dossier</div>
+        </div>
       </div>
-
-      <div class="section-title">Pharmacie</div>
-      <div class="info">
-        <h3>Pharmacie de référence</h3>
-        <p>Pharmacie du Centre – 12 rue de la Paix</p>
-      </div>
-
-      <button class="outline" onclick="toast('Demande de rappel envoyée')">Demander un rappel pour un RDV</button>
+      <p style="font-size:13px;color:#64748b;margin-top:12px">Tout ce qui s’est passé est ici, dans l’ordre.</p>
     </section>
 
     <section id="msg" class="screen">
@@ -248,7 +264,6 @@ textarea{min-height:100px}
         <div class="dossier-item"><div class="dossier-check"></div><div class="dossier-text">Suivi santé / médecin</div></div>
         <div class="dossier-item"><div class="dossier-check"></div><div class="dossier-text">Vers plus d’indépendance</div></div>
       </div>
-      <p style="font-size:13px;color:#64748b;margin-top:12px">Validé uniquement par votre référent.</p>
     </section>
   </main>
 </div>
@@ -301,10 +316,31 @@ textarea{min-height:100px}
 
     <section id="edossier" class="screen">
       <h2>Dossiers résidents</h2>
-      
       <div class="item">
         <div style="font-weight:600;margin-bottom:12px">Guillaume</div>
-        
+
+        <div class="section-title">Historique récent</div>
+        <div class="hist-item">
+          <div class="hist-date">Aujourd’hui<br>09:42</div>
+          <div class="hist-content"><strong>Signalement reçu</strong>Lavabo qui fuit – Marqué lu</div>
+        </div>
+        <div class="hist-item">
+          <div class="hist-date">Aujourd’hui<br>09:15</div>
+          <div class="hist-content"><strong>Signalement envoyé</strong>Par le résident</div>
+        </div>
+        <div class="hist-item">
+          <div class="hist-date">18 août</div>
+          <div class="hist-content"><strong>RDV effectué</strong>Suivi mensuel</div>
+        </div>
+        <div class="hist-item">
+          <div class="hist-date">12 août</div>
+          <div class="hist-content"><strong>Étape validée</strong>Attestation d’hébergement</div>
+        </div>
+        <div class="hist-item">
+          <div class="hist-date">5 août</div>
+          <div class="hist-content"><strong>Problème résolu</strong>Ampoule grillée</div>
+        </div>
+
         <div class="section-title">Parcours</div>
         <div class="dossier-item">
           <div class="dossier-check done clickable" onclick="toggleCheck(this)">✓</div>
@@ -318,50 +354,17 @@ textarea{min-height:100px}
           <div class="dossier-check clickable" onclick="toggleCheck(this)"></div>
           <div class="dossier-text">Suivi santé / médecin</div>
         </div>
-        <div class="dossier-item">
-          <div class="dossier-check clickable" onclick="toggleCheck(this)"></div>
-          <div class="dossier-text">Vers plus d’indépendance</div>
-        </div>
 
         <div class="section-title">Suivi santé</div>
-        
         <div class="info">
           <h3>Médecin traitant</h3>
           <p>Dr. Martin</p>
-          <button class="link" onclick="toast('Modification possible en version finale')">Modifier</button>
         </div>
-
-        <div class="item">
-          <div class="date">Jeudi 28 août • 14h30</div>
-          <div class="with">Dr. Martin – Médecin traitant</div>
-          <div class="status-line"><span class="badge rappel">Rappel activé</span></div>
-        </div>
-        <div class="item">
-          <div class="date">Mardi 2 septembre • 10h00</div>
-          <div class="with">Dr. Lefebvre – Psychiatre</div>
-        </div>
-
-        <div class="section-title">Traitements en cours</div>
-        <div class="item">
-          <div class="date">Traitement A</div>
-          <div class="with">1 comprimé le matin</div>
-        </div>
-        <div class="item">
-          <div class="date">Traitement B</div>
-          <div class="with">2 comprimés le soir</div>
-        </div>
-
-        <div class="section-title">Pharmacie</div>
-        <div class="info">
-          <h3>Pharmacie de référence</h3>
-          <p>Pharmacie du Centre – 12 rue de la Paix</p>
-        </div>
-
         <div class="note-interne">
-          <strong>Note interne :</strong> Suivi psychiatrique en cours avec Dr. Lefebvre. Attention aux oublis de traitement.
+          <strong>Note interne :</strong> Suivi psychiatrique en cours.
         </div>
 
-        <button class="btn-sm p" style="margin-top:12px" onclick="toast('Mise à jour enregistrée – visible par le résident')">Enregistrer les modifications</button>
+        <button class="btn-sm p" style="margin-top:12px" onclick="toast('Mise à jour enregistrée')">Enregistrer</button>
       </div>
     </section>
   </main>
@@ -377,7 +380,6 @@ function sendSignal(){if(!document.querySelector('.type.sel')){toast('Choisissez
 function sendMsg(){const i=document.getElementById('cin'),t=i.value.trim();if(!t)return;const m=document.createElement('div');m.className='msg s';m.innerHTML='<div class="bubble">'+t.replace(/</g,'&lt;')+'</div><div class="time">À l\'instant</div>';document.getElementById('msgs').appendChild(m);i.value='';document.getElementById('msgs').scrollTop=9999}
 function toast(m){let t=document.querySelector('.toast');if(!t){t=document.createElement('div');t.className='toast';document.body.appendChild(t)}t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
 function toggleCheck(el){el.classList.toggle('done');const text=el.nextElementSibling;text.classList.toggle('done');if(el.classList.contains('done'))el.textContent='✓';else el.textContent=''}
-function editMedecin(){const name=prompt('Nom du médecin traitant :');if(name)document.getElementById('medecin-name').textContent=name}
 </script>
 </body>
 </html>
