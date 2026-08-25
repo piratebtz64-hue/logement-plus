@@ -15,15 +15,14 @@ html,body{width:100%;height:100%;overflow-x:hidden;font-family:Inter,-apple-syst
 .card .sub{font-size:14px;color:#64748b;margin-bottom:8px}
 .card .desc{font-size:15px;margin-bottom:28px;line-height:1.45;color:#334155}
 .card .note{margin-top:24px;font-size:12px;color:#64748b;line-height:1.4}
-.btn{border:none;cursor:pointer;font-family:inherit;font-weight:600;border-radius:14px;font-size:16px;padding:16px;width:100%;margin-bottom:12px;transition:transform .1s}
-.btn:active{transform:scale(.98)}
+.btn{border:none;cursor:pointer;font-family:inherit;font-weight:600;border-radius:14px;font-size:16px;padding:16px;width:100%;margin-bottom:12px}
 .btn-p{background:#1a5f7a;color:#fff}
 .btn-s{background:#f1f5f9;color:#1e293b}
 .app{min-height:100vh;min-height:100dvh;background:#f1f5f9;display:flex;flex-direction:column}
 .header{background:#1a5f7a;color:#fff;padding:14px 16px;position:sticky;top:0;z-index:50}
 .header.dark{background:#0f3a4f}
 .header-inner{display:flex;justify-content:space-between;align-items:center}
-.app-name{font-size:12px;opacity:.85;letter-spacing:.3px}
+.app-name{font-size:12px;opacity:.85}
 .user{font-size:17px;font-weight:600;margin-top:2px}
 .btn-icon{background:rgba(255,255,255,.15);border:none;color:#fff;width:38px;height:38px;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center}
 .nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;display:flex;padding:8px 0 calc(8px + env(safe-area-inset-bottom,0px));z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,.04)}
@@ -52,7 +51,7 @@ label{display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:#3341
 .type{padding:14px 10px;border-radius:12px;border:2px solid #e2e8f0;background:#fff;font-size:13px;font-weight:600;color:#475569}
 .type.sel{border-color:#2e8b57;background:#e8f5ee;color:#2e8b57}
 .type.urg.sel{border-color:#c0392b;background:#fdf0ef;color:#c0392b}
-textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;font-family:inherit;font-size:15px;min-height:100px;margin-bottom:12px;resize:none}
+textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;font-family:inherit;font-size:15px;min-height:90px;margin-bottom:12px;resize:none}
 .full{width:100%;padding:15px;border-radius:12px;border:none;font-weight:600;font-size:16px;background:#1a5f7a;color:#fff;margin-top:6px}
 .outline{width:100%;padding:12px;border-radius:12px;border:1.5px solid #e2e8f0;background:transparent;font-weight:600;margin-bottom:12px;color:#334155}
 .chat{display:flex;flex-direction:column;height:calc(100dvh - 160px)}
@@ -112,7 +111,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
 .hist-content strong{display:block;margin-bottom:2px;color:#0f172a}
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:12px 20px;border-radius:30px;font-size:14px;font-weight:500;z-index:200;opacity:0;transition:opacity .3s;max-width:90%;text-align:center}
 .toast.show{opacity:1}
-.empty{text-align:center;padding:30px 16px;color:#94a3b8;font-size:14px}
 </style>
 </head>
 <body>
@@ -143,7 +141,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
   </nav>
   <main class="content">
 
-    <!-- ACCUEIL -->
     <section id="home" class="screen active">
       <div class="rappel-banner">
         <span>🔔</span>
@@ -177,7 +174,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
       </div>
     </section>
 
-    <!-- SIGNALEMENT -->
     <section id="signal" class="screen">
       <div style="display:flex;align-items:center;margin-bottom:16px">
         <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Signaler un souci</h2>
@@ -193,18 +189,15 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
       <button class="full" onclick="sendSignal()">Envoyer le signalement</button>
     </section>
 
-    <!-- SANTÉ -->
     <section id="sante" class="screen">
       <div style="display:flex;align-items:center;margin-bottom:16px">
         <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Mon suivi santé</h2>
       </div>
-
       <div class="info">
         <h3>Médecin traitant</h3>
         <p id="medecin-name">Dr. Martin</p>
         <button class="link" onclick="editMedecin()">Modifier</button>
       </div>
-
       <div class="section-title">Prochains rendez-vous</div>
       <div class="item">
         <div class="date">Jeudi 28 août • 14h30</div>
@@ -215,7 +208,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
         <div class="date">Mardi 2 septembre • 10h00</div>
         <div class="with">Dr. Lefebvre – Psychiatre</div>
       </div>
-
       <div class="section-title">Traitements en cours</div>
       <div class="item">
         <div class="date">Traitement A</div>
@@ -225,21 +217,18 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
         <div class="date">Traitement B</div>
         <div class="with">2 comprimés le soir</div>
       </div>
-
       <div class="section-title">Pharmacie</div>
       <div class="info">
         <h3>Pharmacie de référence</h3>
         <p>Pharmacie du Centre – 12 rue de la Paix</p>
       </div>
-
-      <button class="outline" onclick="toast('Demande de rappel envoyée à l’équipe')">Demander un rappel pour un RDV</button>
-      <button class="action urgent" style="margin-top:12px" onclick="toast('Problème de santé signalé à l’équipe')">
+      <button class="outline" onclick="toast('Demande de rappel envoyée')">Demander un rappel pour un RDV</button>
+      <button class="action urgent" style="margin-top:12px" onclick="toast('Problème de santé signalé')">
         <span class="ico">🩺</span>
         <div><strong>J’ai un problème de santé</strong><span>Signaler rapidement</span></div>
       </button>
     </section>
 
-    <!-- HISTORIQUE -->
     <section id="histo" class="screen">
       <div style="display:flex;align-items:center;margin-bottom:16px">
         <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Mon historique</h2>
@@ -270,10 +259,8 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
           <div class="hist-content"><strong>Entrée dans le dispositif</strong>Accueil et ouverture du dossier</div>
         </div>
       </div>
-      <p style="font-size:13px;color:#64748b;margin-top:12px">Tout l’historique de votre accompagnement est ici.</p>
     </section>
 
-    <!-- MESSAGES -->
     <section id="msg" class="screen">
       <div style="display:flex;align-items:center;margin-bottom:16px">
         <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Messages</h2>
@@ -291,7 +278,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
       </div>
     </section>
 
-    <!-- RDV -->
     <section id="rdv" class="screen">
       <div style="display:flex;align-items:center;margin-bottom:16px">
         <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Mes rendez-vous</h2>
@@ -312,7 +298,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
       </div>
     </section>
 
-    <!-- PARCOURS -->
     <section id="dossier" class="screen">
       <div style="display:flex;align-items:center;margin-bottom:16px">
         <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Mon parcours</h2>
@@ -349,7 +334,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
   </nav>
   <main class="content">
 
-    <!-- DEMANDES -->
     <section id="dash" class="screen active">
       <div class="stats">
         <div class="stat"><div class="n">3</div><div class="l">En attente</div></div>
@@ -386,10 +370,19 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
           <button class="btn-sm" onclick="markSeen(this)">Marquer vu</button>
           <button class="btn-sm p" onclick="takeCharge(this,'req2')">Je m’en occupe</button>
         </div>
+        <div class="quick-replies">
+          <button onclick="quickReply(this,'J’ai bien reçu')">J’ai bien reçu</button>
+          <button onclick="quickReply(this,'C’est en cours')">C’est en cours</button>
+        </div>
+      </div>
+
+      <div class="item req" id="req3">
+        <div class="top"><span class="badge ok">Petit souci</span><span style="font-size:12px;color:#64748b">Hier</span></div>
+        <div class="title">Karim B. • Volet bloqué</div>
+        <div class="status-line"><span class="badge warn">En cours</span></div>
       </div>
     </section>
 
-    <!-- MESSAGES -->
     <section id="emsg" class="screen">
       <h2>Messages</h2>
       <div class="item" style="display:flex;align-items:center;gap:12px">
@@ -404,7 +397,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
       </div>
     </section>
 
-    <!-- AGENDA -->
     <section id="erdv" class="screen">
       <h2>Agenda</h2>
       <div class="item">
@@ -419,7 +411,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
       </div>
     </section>
 
-    <!-- DOSSIERS -->
     <section id="edossier" class="screen">
       <h2>Dossiers résidents</h2>
       <div class="item">
