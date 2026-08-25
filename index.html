@@ -6,113 +6,151 @@
 <title>Logement Plus</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{width:100%;height:100%;overflow-x:hidden;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#1e293b}
-.hidden{display:none!important}
-#mode{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(160deg,#0f172a,#1e3a5f)}
-.card{background:#fff;border-radius:24px;padding:36px 24px;width:100%;max-width:360px;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,.35)}
-.card h1{font-size:26px;color:#1a5f7a;margin-bottom:6px;font-weight:700}
-.card .sub{font-size:14px;color:#64748b;margin-bottom:8px}
-.card .desc{font-size:15px;margin-bottom:28px;line-height:1.45;color:#334155}
-.card .note{margin-top:24px;font-size:12px;color:#64748b;line-height:1.4}
-.btn{border:none;cursor:pointer;font-family:inherit;font-weight:600;border-radius:14px;font-size:16px;padding:16px;width:100%;margin-bottom:12px}
-.btn-p{background:#1a5f7a;color:#fff}
-.btn-s{background:#f1f5f9;color:#1e293b}
-.app{min-height:100vh;min-height:100dvh;background:#f1f5f9;display:flex;flex-direction:column}
-.header{background:#1a5f7a;color:#fff;padding:14px 16px;position:sticky;top:0;z-index:50}
-.header.dark{background:#0f3a4f}
-.header-inner{display:flex;justify-content:space-between;align-items:center}
-.app-name{font-size:12px;opacity:.85}
-.user{font-size:17px;font-weight:600;margin-top:2px}
-.btn-icon{background:rgba(255,255,255,.15);border:none;color:#fff;width:38px;height:38px;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;display:flex;padding:8px 0 calc(8px + env(safe-area-inset-bottom,0px));z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,.04)}
-.nav button{flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:#64748b;padding:6px 2px;min-width:0;font-weight:500}
-.nav button.active{color:#1a5f7a;font-weight:600}
-.nav .ico{font-size:20px}
-.content{flex:1;padding:16px 16px 100px;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.screen{display:none}
-.screen.active{display:block}
-.back{background:none;border:none;font-size:22px;padding:4px 8px 4px 0;margin-right:4px;color:#1a5f7a}
-h2{font-size:18px;font-weight:700;margin-bottom:16px;line-height:1.3;color:#0f172a}
-.action{width:100%;background:linear-gradient(135deg,#2e8b57,#247a4a);color:#fff;border:none;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:12px;text-align:left;box-shadow:0 4px 16px rgba(46,139,87,.2)}
-.action.secondary{background:linear-gradient(135deg,#1a5f7a,#134b61);box-shadow:0 4px 16px rgba(26,95,122,.2)}
-.action.urgent{background:linear-gradient(135deg,#c0392b,#a93226);box-shadow:0 4px 16px rgba(192,57,43,.25)}
-.action .ico{font-size:26px;flex-shrink:0}
-.action strong{display:block;font-size:15px;margin-bottom:2px}
-.action span{font-size:13px;opacity:.9}
-.quick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.quick button{background:#fff;border:none;border-radius:14px;padding:16px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.06);font-size:13px;font-weight:500;color:#1e293b}
-.info{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,.05);margin-bottom:14px}
-.info h3{font-size:14px;font-weight:600;margin-bottom:4px;color:#0f172a}
-.info p{font-size:13px;color:#64748b;line-height:1.4}
-.link{background:none;border:none;color:#1a5f7a;font-size:14px;font-weight:600;margin-top:8px;padding:0}
-label{display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:#334155}
-.types{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
-.type{padding:14px 10px;border-radius:12px;border:2px solid #e2e8f0;background:#fff;font-size:13px;font-weight:600;color:#475569}
-.type.sel{border-color:#2e8b57;background:#e8f5ee;color:#2e8b57}
-.type.urg.sel{border-color:#c0392b;background:#fdf0ef;color:#c0392b}
-textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;font-family:inherit;font-size:15px;min-height:90px;margin-bottom:12px;resize:none}
-.full{width:100%;padding:15px;border-radius:12px;border:none;font-weight:600;font-size:16px;background:#1a5f7a;color:#fff;margin-top:6px}
-.outline{width:100%;padding:12px;border-radius:12px;border:1.5px solid #e2e8f0;background:transparent;font-weight:600;margin-bottom:12px;color:#334155}
-.chat{display:flex;flex-direction:column;height:calc(100dvh - 160px)}
-.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding-bottom:12px}
-.msg{max-width:82%}
-.msg.r{align-self:flex-start}
-.msg.s{align-self:flex-end}
-.bubble{padding:11px 14px;border-radius:16px;font-size:14px;line-height:1.45;word-break:break-word}
-.msg.r .bubble{background:#fff;border-bottom-left-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
-.msg.s .bubble{background:#2e8b57;color:#fff;border-bottom-right-radius:4px}
-.time{font-size:11px;color:#64748b;margin-top:3px;padding:0 4px}
-.msg.s .time{text-align:right}
-.input{display:flex;gap:8px;padding:10px 0;align-items:center}
-.input input{flex:1;border:none;background:#fff;border-radius:24px;padding:12px 16px;font-size:15px;box-shadow:0 2px 10px rgba(0,0,0,.05);min-width:0}
-.send{width:44px;height:44px;border-radius:50%;background:#1a5f7a;color:#fff;border:none;font-size:18px;flex-shrink:0}
-.voice-btn{width:44px;height:44px;border-radius:50%;background:#f1f5f9;border:none;font-size:18px;flex-shrink:0}
-.item{background:#fff;border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:0 2px 12px rgba(0,0,0,.05)}
-.item .date{font-size:15px;font-weight:600;margin-bottom:4px;color:#0f172a}
-.item .with{font-size:13px;color:#64748b;margin-bottom:6px;line-height:1.35}
-.item .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.btn-sm{padding:8px 14px;border-radius:8px;font-size:13px;border:none;background:#f1f5f9;font-weight:600;color:#334155}
-.btn-sm.p{background:#2e8b57;color:#fff}
-.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
-.badge.ok{background:#e8f5ee;color:#2e8b57}
-.badge.warn{background:#fef5e7;color:#d68910}
-.badge.bad{background:#fdf0ef;color:#c0392b}
-.badge.recu{background:#e0f2fe;color:#0369a1}
-.badge.rappel{background:#fef3c7;color:#b45309}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.stat{background:#fff;border-radius:14px;padding:16px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.05)}
-.stat .n{font-size:26px;font-weight:700;color:#1a5f7a}
-.stat .l{font-size:12px;color:#64748b;margin-top:2px}
-.req.urgent{border-left:4px solid #c0392b}
-.req .top{display:flex;justify-content:space-between;margin-bottom:6px;align-items:center}
-.req .title{font-size:14px;font-weight:600;margin-bottom:4px;color:#0f172a}
-.req .desc{font-size:13px;color:#64748b;margin-bottom:10px}
-.quick-replies{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid #f1f5f9}
-.quick-replies button{padding:8px 12px;border-radius:20px;border:1px solid #e2e8f0;background:#fff;font-size:12px;font-weight:500;color:#334155}
-.free-reply{margin-top:12px;padding-top:12px;border-top:1px solid #f1f5f9}
-.free-reply textarea{min-height:70px;margin-bottom:8px}
-.status-line{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px;flex-wrap:wrap}
-.dossier-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f1f5f9}
-.dossier-item:last-child{border-bottom:none}
-.dossier-check{width:22px;height:22px;border-radius:6px;border:2px solid #cbd5e1;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
-.dossier-check.done{background:#2e8b57;border-color:#2e8b57;color:#fff}
-.dossier-check.clickable{cursor:pointer}
-.dossier-text{flex:1;font-size:14px;color:#334155}
-.dossier-text.done{text-decoration:line-through;color:#94a3b8}
-.rappel-banner{background:#fef3c7;border-radius:12px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;font-size:14px;color:#92400e}
-.notif-banner{background:#e0f2fe;border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:14px;color:#0369a1}
-.note-interne{background:#fef9c3;border-radius:10px;padding:10px 12px;margin-top:10px;font-size:13px;color:#854d0e;line-height:1.4}
-.section-title{font-size:13px;font-weight:600;color:#64748b;margin:18px 0 10px;text-transform:uppercase;letter-spacing:.4px}
-.hist-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #f1f5f9}
-.hist-item:last-child{border-bottom:none}
-.hist-date{font-size:12px;color:#64748b;min-width:72px;line-height:1.3}
-.hist-content{flex:1;font-size:14px;line-height:1.35}
-.hist-content strong{display:block;margin-bottom:2px;color:#0f172a}
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:12px 20px;border-radius:30px;font-size:14px;font-weight:500;z-index:200;opacity:0;transition:opacity .3s;max-width:90%;text-align:center}
-.toast.show{opacity:1}
-.page-title{display:flex;align-items:center;margin-bottom:16px}
-.page-title h2{margin:0}
+:root {
+  --primary: #1a5f7a;
+  --primary-dark: #0f3a4f;
+  --success: #2e8b57;
+  --urgent: #c0392b;
+  --bg: #f1f5f9;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { width:100%; height:100%; font-family:Inter, -apple-system, sans-serif; background:#0f172a; color:var(--text); }
+.hidden { display:none !important; }
+
+/* Landing */
+#mode { min-height:100vh; min-height:100dvh; display:flex; align-items:center; justify-content:center; padding:24px; background:linear-gradient(160deg,#0f172a,#1e3a5f); }
+.card { background:#fff; border-radius:24px; padding:40px 28px; width:100%; max-width:360px; text-align:center; box-shadow:0 25px 50px rgba(0,0,0,.3); }
+.card h1 { font-size:28px; color:var(--primary); margin-bottom:6px; font-weight:700; }
+.card .sub { font-size:14px; color:var(--muted); margin-bottom:8px; }
+.card .desc { font-size:15px; color:#334155; margin-bottom:32px; line-height:1.5; }
+.btn { border:none; font-family:inherit; font-weight:600; border-radius:14px; font-size:16px; padding:16px; width:100%; margin-bottom:12px; cursor:pointer; }
+.btn-p { background:var(--primary); color:#fff; }
+.btn-s { background:#f1f5f9; color:var(--text); }
+.note { margin-top:24px; font-size:12px; color:var(--muted); }
+
+/* App shell */
+.app { min-height:100vh; min-height:100dvh; background:var(--bg); display:flex; flex-direction:column; }
+.header { background:var(--primary); color:#fff; padding:14px 16px; position:sticky; top:0; z-index:50; }
+.header.dark { background:var(--primary-dark); }
+.header-inner { display:flex; justify-content:space-between; align-items:center; }
+.app-name { font-size:12px; opacity:.85; }
+.user { font-size:17px; font-weight:600; margin-top:2px; }
+.btn-icon { background:rgba(255,255,255,.15); border:none; color:#fff; width:38px; height:38px; border-radius:50%; font-size:18px; display:flex; align-items:center; justify-content:center; }
+
+.nav { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid var(--border); display:flex; padding:8px 0 calc(8px + env(safe-area-inset-bottom,0px)); z-index:100; }
+.nav button { flex:1; background:none; border:none; display:flex; flex-direction:column; align-items:center; gap:3px; font-size:10px; color:var(--muted); padding:6px 2px; font-weight:500; }
+.nav button.active { color:var(--primary); font-weight:600; }
+.nav .ico { font-size:20px; }
+
+.content { flex:1; padding:16px 16px 100px; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+.screen { display:none; }
+.screen.active { display:block; }
+
+.page-title { display:flex; align-items:center; gap:8px; margin-bottom:20px; }
+.page-title h2 { font-size:18px; font-weight:700; margin:0; }
+.back { background:none; border:none; font-size:22px; color:var(--primary); padding:4px 4px 4px 0; }
+
+h2 { font-size:18px; font-weight:700; margin-bottom:16px; }
+
+/* Action buttons */
+.action { width:100%; border:none; border-radius:16px; padding:16px; display:flex; align-items:center; gap:14px; margin-bottom:12px; text-align:left; color:#fff; font-family:inherit; }
+.action.urgent { background:linear-gradient(135deg,#c0392b,#a93226); box-shadow:0 4px 14px rgba(192,57,43,.25); }
+.action.green { background:linear-gradient(135deg,#2e8b57,#247a4a); box-shadow:0 4px 14px rgba(46,139,87,.2); }
+.action.blue { background:linear-gradient(135deg,#1a5f7a,#134b61); box-shadow:0 4px 14px rgba(26,95,122,.2); }
+.action .ico { font-size:24px; }
+.action strong { display:block; font-size:15px; margin-bottom:2px; }
+.action span { font-size:13px; opacity:.9; }
+
+.quick { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+.quick button { background:#fff; border:none; border-radius:14px; padding:16px 10px; display:flex; flex-direction:column; align-items:center; gap:6px; box-shadow:0 2px 10px rgba(0,0,0,.05); font-size:13px; font-weight:500; color:var(--text); }
+
+.info { background:#fff; border-radius:16px; padding:16px; box-shadow:0 2px 10px rgba(0,0,0,.04); margin-bottom:14px; }
+.info h3 { font-size:14px; font-weight:600; margin-bottom:4px; }
+.info p { font-size:13px; color:var(--muted); }
+.link { background:none; border:none; color:var(--primary); font-size:14px; font-weight:600; margin-top:8px; padding:0; }
+
+/* Cards */
+.item { background:#fff; border-radius:14px; padding:16px; margin-bottom:12px; box-shadow:0 2px 10px rgba(0,0,0,.04); }
+.item .date { font-size:15px; font-weight:600; margin-bottom:4px; }
+.item .with { font-size:13px; color:var(--muted); margin-bottom:6px; }
+
+.badge { display:inline-block; padding:3px 9px; border-radius:20px; font-size:11px; font-weight:600; }
+.badge.ok { background:#e8f5ee; color:#2e8b57; }
+.badge.warn { background:#fef5e7; color:#d68910; }
+.badge.bad { background:#fdf0ef; color:#c0392b; }
+.badge.recu { background:#e0f2fe; color:#0369a1; }
+.badge.rappel { background:#fef3c7; color:#b45309; }
+
+.btn-sm { padding:8px 14px; border-radius:8px; font-size:13px; border:none; background:#f1f5f9; font-weight:600; color:#334155; }
+.btn-sm.p { background:var(--success); color:#fff; }
+.actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+
+.notif-banner { background:#e0f2fe; border-radius:12px; padding:12px 14px; margin-bottom:16px; display:flex; align-items:center; gap:10px; font-size:14px; color:#0369a1; }
+.note-interne { background:#fef9c3; border-radius:10px; padding:10px 12px; margin-top:10px; font-size:13px; color:#854d0e; line-height:1.4; }
+
+.section-title { font-size:13px; font-weight:600; color:var(--muted); margin:18px 0 10px; text-transform:uppercase; letter-spacing:.3px; }
+
+.stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+.stat { background:#fff; border-radius:14px; padding:16px; text-align:center; box-shadow:0 2px 10px rgba(0,0,0,.04); }
+.stat .n { font-size:26px; font-weight:700; color:var(--primary); }
+.stat .l { font-size:12px; color:var(--muted); margin-top:2px; }
+
+.req.urgent { border-left:4px solid var(--urgent); }
+.req .top { display:flex; justify-content:space-between; margin-bottom:6px; align-items:center; }
+.req .title { font-size:14px; font-weight:600; margin-bottom:4px; }
+.req .desc { font-size:13px; color:var(--muted); margin-bottom:10px; }
+
+.quick-replies { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; padding-top:12px; border-top:1px solid #f1f5f9; }
+.quick-replies button { padding:8px 12px; border-radius:20px; border:1px solid var(--border); background:#fff; font-size:12px; font-weight:500; color:#334155; }
+.free-reply { margin-top:12px; padding-top:12px; border-top:1px solid #f1f5f9; }
+.free-reply textarea { width:100%; border:1.5px solid var(--border); border-radius:12px; padding:12px; font-family:inherit; font-size:15px; min-height:70px; margin-bottom:8px; resize:none; }
+
+.status-line { display:flex; align-items:center; gap:8px; margin-top:8px; font-size:13px; flex-wrap:wrap; }
+
+.dossier-item { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid #f1f5f9; }
+.dossier-item:last-child { border-bottom:none; }
+.dossier-check { width:22px; height:22px; border-radius:6px; border:2px solid #cbd5e1; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px; }
+.dossier-check.done { background:var(--success); border-color:var(--success); color:#fff; }
+.dossier-check.clickable { cursor:pointer; }
+.dossier-text { flex:1; font-size:14px; color:#334155; }
+.dossier-text.done { text-decoration:line-through; color:#94a3b8; }
+
+.hist-item { display:flex; gap:12px; padding:12px 0; border-bottom:1px solid #f1f5f9; }
+.hist-item:last-child { border-bottom:none; }
+.hist-date { font-size:12px; color:var(--muted); min-width:72px; line-height:1.3; }
+.hist-content { flex:1; font-size:14px; line-height:1.35; }
+.hist-content strong { display:block; margin-bottom:2px; }
+
+label { display:block; font-size:14px; font-weight:600; margin-bottom:8px; color:#334155; }
+.types { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px; }
+.type { padding:14px 10px; border-radius:12px; border:2px solid var(--border); background:#fff; font-size:13px; font-weight:600; color:#475569; }
+.type.sel { border-color:var(--success); background:#e8f5ee; color:var(--success); }
+.type.urg.sel { border-color:var(--urgent); background:#fdf0ef; color:var(--urgent); }
+textarea { width:100%; border:1.5px solid var(--border); border-radius:12px; padding:12px; font-family:inherit; font-size:15px; min-height:90px; margin-bottom:12px; resize:none; }
+.full { width:100%; padding:15px; border-radius:12px; border:none; font-weight:600; font-size:16px; background:var(--primary); color:#fff; margin-top:6px; }
+.outline { width:100%; padding:12px; border-radius:12px; border:1.5px solid var(--border); background:transparent; font-weight:600; margin-bottom:12px; color:#334155; }
+
+.chat { display:flex; flex-direction:column; height:calc(100dvh - 160px); }
+.msgs { flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:10px; padding-bottom:12px; }
+.msg { max-width:82%; }
+.msg.r { align-self:flex-start; }
+.msg.s { align-self:flex-end; }
+.bubble { padding:11px 14px; border-radius:16px; font-size:14px; line-height:1.45; word-break:break-word; }
+.msg.r .bubble { background:#fff; border-bottom-left-radius:4px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.msg.s .bubble { background:var(--success); color:#fff; border-bottom-right-radius:4px; }
+.time { font-size:11px; color:var(--muted); margin-top:3px; padding:0 4px; }
+.msg.s .time { text-align:right; }
+.input { display:flex; gap:8px; padding:10px 0; align-items:center; }
+.input input { flex:1; border:none; background:#fff; border-radius:24px; padding:12px 16px; font-size:15px; box-shadow:0 2px 8px rgba(0,0,0,.05); min-width:0; }
+.send { width:44px; height:44px; border-radius:50%; background:var(--primary); color:#fff; border:none; font-size:18px; flex-shrink:0; }
+.voice-btn { width:44px; height:44px; border-radius:50%; background:#f1f5f9; border:none; font-size:18px; flex-shrink:0; }
+
+.toast { position:fixed; bottom:90px; left:50%; transform:translateX(-50%); background:#1e293b; color:#fff; padding:12px 20px; border-radius:30px; font-size:14px; font-weight:500; z-index:200; opacity:0; transition:opacity .3s; max-width:90%; text-align:center; }
+.toast.show { opacity:1; }
 </style>
 </head>
 <body>
@@ -120,7 +158,7 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
 <div id="mode">
   <div class="card">
     <h1>Logement Plus</h1>
-    <p class="sub">Démonstration privée</p>
+    <p class="sub">Démonstration</p>
     <p class="desc">Choisissez un profil pour explorer l’outil</p>
     <button class="btn btn-p" onclick="go('res')">Je suis un résident</button>
     <button class="btn btn-s" onclick="go('edu')">Je suis un éducateur</button>
@@ -128,7 +166,7 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
   </div>
 </div>
 
-<!-- ===================== RÉSIDENT ===================== -->
+<!-- RÉSIDENT -->
 <div id="res" class="app hidden">
   <header class="header">
     <div class="header-inner">
@@ -150,15 +188,15 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
         <div><strong>Nouveau</strong> : Marie a répondu à votre signalement</div>
       </div>
       <h2>Que souhaitez-vous faire ?</h2>
-      <button class="action urgent" onclick="toast('Alerte urgente envoyée ✓')">
+      <button class="action urgent" onclick="toast('Alerte urgente envoyée')">
         <span class="ico">🚨</span>
         <div><strong>J’ai besoin d’aide urgente</strong><span>Alerte prioritaire</span></div>
       </button>
-      <button class="action" onclick="show('signal')">
+      <button class="action green" onclick="show('signal')">
         <span class="ico">🔧</span>
         <div><strong>Signaler un souci</strong><span>Petit problème ou urgent</span></div>
       </button>
-      <button class="action secondary" onclick="show('sante')">
+      <button class="action blue" onclick="show('sante')">
         <span class="ico">🩺</span>
         <div><strong>Mon suivi santé</strong><span>Médecin, RDV, traitements</span></div>
       </button>
@@ -174,10 +212,7 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </section>
 
     <section id="signal" class="screen">
-      <div class="page-title">
-        <button class="back" onclick="show('home')">←</button>
-        <h2>Signaler un souci</h2>
-      </div>
+      <div class="page-title"><button class="back" onclick="show('home')">←</button><h2>Signaler un souci</h2></div>
       <label>Type de problème</label>
       <div class="types">
         <button class="type" onclick="sel(this)">Petit problème</button>
@@ -190,10 +225,7 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </section>
 
     <section id="sante" class="screen">
-      <div class="page-title">
-        <button class="back" onclick="show('home')">←</button>
-        <h2>Mon suivi santé</h2>
-      </div>
+      <div class="page-title"><button class="back" onclick="show('home')">←</button><h2>Mon suivi santé</h2></div>
       <div class="info">
         <h3>Médecin traitant</h3>
         <p>Dr. Martin</p>
@@ -208,7 +240,7 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
         <div class="date">Mardi 2 septembre • 10h00</div>
         <div class="with">Dr. Lefebvre – Psychiatre</div>
       </div>
-      <div class="section-title">Traitements en cours</div>
+      <div class="section-title">Traitements</div>
       <div class="item">
         <div class="date">Traitement A</div>
         <div class="with">1 comprimé le matin</div>
@@ -224,42 +256,24 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </section>
 
     <section id="histo" class="screen">
-      <div class="page-title">
-        <button class="back" onclick="show('home')">←</button>
-        <h2>Mon historique</h2>
-      </div>
+      <div class="page-title"><button class="back" onclick="show('home')">←</button><h2>Mon historique</h2></div>
       <div class="item">
-        <div class="hist-item">
-          <div class="hist-date">Aujourd’hui<br>09:42</div>
-          <div class="hist-content"><strong>Message lu</strong>Marie a lu votre signalement</div>
-        </div>
-        <div class="hist-item">
-          <div class="hist-date">Aujourd’hui<br>09:15</div>
-          <div class="hist-content"><strong>Signalement envoyé</strong>Lavabo qui fuit</div>
-        </div>
-        <div class="hist-item">
-          <div class="hist-date">18 août</div>
-          <div class="hist-content"><strong>Rendez-vous effectué</strong>Suivi avec Marie L.</div>
-        </div>
-        <div class="hist-item">
-          <div class="hist-date">12 août</div>
-          <div class="hist-content"><strong>Étape validée</strong>Attestation d’hébergement</div>
-        </div>
+        <div class="hist-item"><div class="hist-date">Aujourd’hui<br>09:42</div><div class="hist-content"><strong>Message lu</strong>Marie a lu votre signalement</div></div>
+        <div class="hist-item"><div class="hist-date">Aujourd’hui<br>09:15</div><div class="hist-content"><strong>Signalement envoyé</strong>Lavabo qui fuit</div></div>
+        <div class="hist-item"><div class="hist-date">18 août</div><div class="hist-content"><strong>Rendez-vous effectué</strong>Suivi avec Marie L.</div></div>
+        <div class="hist-item"><div class="hist-date">12 août</div><div class="hist-content"><strong>Étape validée</strong>Attestation d’hébergement</div></div>
       </div>
     </section>
 
     <section id="msg" class="screen">
-      <div class="page-title">
-        <button class="back" onclick="show('home')">←</button>
-        <h2>Messages</h2>
-      </div>
+      <div class="page-title"><button class="back" onclick="show('home')">←</button><h2>Messages</h2></div>
       <div class="chat">
         <div class="msgs" id="msgs">
           <div class="msg r"><div class="bubble">Bonjour Guillaume, j’ai bien reçu votre signalement. On s’en occupe.</div><div class="time">Aujourd’hui • 09:42</div></div>
           <div class="msg s"><div class="bubble">Merci beaucoup Marie !</div><div class="time">09:45</div></div>
         </div>
         <div class="input">
-          <button class="voice-btn" onclick="toast('Message vocal (simulation)')">🎤</button>
+          <button class="voice-btn" onclick="toast('Message vocal')">🎤</button>
           <input id="cin" placeholder="Écrire un message..." onkeypress="if(event.key==='Enter')sendMsg()">
           <button class="send" onclick="sendMsg()">↑</button>
         </div>
@@ -267,17 +281,14 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </section>
 
     <section id="rdv" class="screen">
-      <div class="page-title">
-        <button class="back" onclick="show('home')">←</button>
-        <h2>Mes rendez-vous</h2>
-      </div>
+      <div class="page-title"><button class="back" onclick="show('home')">←</button><h2>Mes rendez-vous</h2></div>
       <div class="item">
         <div class="date">Mardi 26 août • 10h30</div>
         <div class="with">Avec Marie L. (référente)</div>
         <div class="status-line"><span class="badge rappel">Rappel activé</span></div>
         <div class="actions">
-          <button class="btn-sm p" onclick="toast('Rendez-vous confirmé')">Confirmer</button>
-          <button class="btn-sm" onclick="toast('Demande de report envoyée')">Reporter</button>
+          <button class="btn-sm p" onclick="toast('Confirmé')">Confirmer</button>
+          <button class="btn-sm" onclick="toast('Report demandé')">Reporter</button>
         </div>
       </div>
       <div class="item" style="opacity:.7">
@@ -288,10 +299,7 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </section>
 
     <section id="dossier" class="screen">
-      <div class="page-title">
-        <button class="back" onclick="show('home')">←</button>
-        <h2>Mon parcours</h2>
-      </div>
+      <div class="page-title"><button class="back" onclick="show('home')">←</button><h2>Mon parcours</h2></div>
       <div class="item">
         <div class="dossier-item"><div class="dossier-check done">✓</div><div class="dossier-text done">Entrée dans le dispositif</div></div>
         <div class="dossier-item"><div class="dossier-check done">✓</div><div class="dossier-text done">Accès au logement</div></div>
@@ -303,12 +311,12 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
         <div class="dossier-item"><div class="dossier-check"></div><div class="dossier-text">Objectifs personnels</div></div>
         <div class="dossier-item"><div class="dossier-check"></div><div class="dossier-text">Vers plus d’indépendance</div></div>
       </div>
-      <p style="font-size:13px;color:#64748b;margin-top:14px">Ces étapes sont validées uniquement par votre référent.</p>
+      <p style="font-size:13px;color:var(--muted);margin-top:14px">Ces étapes sont validées uniquement par votre référent.</p>
     </section>
   </main>
 </div>
 
-<!-- ===================== ÉDUCATEUR ===================== -->
+<!-- ÉDUCATEUR -->
 <div id="edu" class="app hidden">
   <header class="header dark">
     <div class="header-inner">
@@ -335,11 +343,11 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
         <span class="ico">🚨</span>
         <div><strong>Demandes urgentes</strong><span>1 alerte prioritaire</span></div>
       </button>
-      <button class="action" onclick="showE('dash')">
+      <button class="action green" onclick="showE('dash')">
         <span class="ico">🔧</span>
         <div><strong>Toutes les demandes</strong><span>3 en attente</span></div>
       </button>
-      <button class="action secondary" onclick="showE('esante')">
+      <button class="action blue" onclick="showE('esante')">
         <span class="ico">🩺</span>
         <div><strong>Suivi santé</strong><span>Alertes + dossiers santé</span></div>
       </button>
@@ -354,16 +362,13 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </section>
 
     <section id="dash" class="screen">
-      <div class="page-title">
-        <button class="back" onclick="showE('ehome')">←</button>
-        <h2>Demandes</h2>
-      </div>
+      <div class="page-title"><button class="back" onclick="showE('ehome')">←</button><h2>Demandes</h2></div>
       <div class="stats">
         <div class="stat"><div class="n">3</div><div class="l">En attente</div></div>
         <div class="stat"><div class="n">1</div><div class="l">Urgent</div></div>
       </div>
       <div class="item req urgent" id="req1">
-        <div class="top"><span class="badge bad">URGENT</span><span style="font-size:12px;color:#64748b">Il y a 12 min</span></div>
+        <div class="top"><span class="badge bad">URGENT</span><span style="font-size:12px;color:var(--muted)">Il y a 12 min</span></div>
         <div class="title">Jean D. • Lavabo qui fuit</div>
         <div class="desc">Fuite importante dans la salle de bain</div>
         <div class="status-line"><span class="badge recu">Reçu</span></div>
@@ -382,9 +387,8 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
         </div>
         <div class="note-interne"><strong>Note interne :</strong> Situation fragile, passer rapidement.</div>
       </div>
-
       <div class="item req">
-        <div class="top"><span class="badge ok">Petit souci</span><span style="font-size:12px;color:#64748b">Il y a 1h</span></div>
+        <div class="top"><span class="badge ok">Petit souci</span><span style="font-size:12px;color:var(--muted)">Il y a 1h</span></div>
         <div class="title">Sophie M. • Ampoule grillée</div>
         <div class="status-line"><span class="badge recu">Reçu</span></div>
         <div class="actions">
@@ -395,10 +399,7 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </section>
 
     <section id="esante" class="screen">
-      <div class="page-title">
-        <button class="back" onclick="showE('ehome')">←</button>
-        <h2>Suivi santé</h2>
-      </div>
+      <div class="page-title"><button class="back" onclick="showE('ehome')">←</button><h2>Suivi santé</h2></div>
       <div class="notif-banner">
         <span>🩺</span>
         <div><strong>Alerte</strong> : Guillaume a signalé un problème de santé</div>
@@ -419,32 +420,26 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
       </div>
       <div class="item">
         <div class="date">Mardi 2 septembre • 10h00</div>
-        <div class="with">Guillaume – Dr. Lefebvre (Psychiatre)</div>
+        <div class="with">Guillaume – Dr. Lefebvre</div>
       </div>
     </section>
 
     <section id="emsg" class="screen">
-      <div class="page-title">
-        <button class="back" onclick="showE('ehome')">←</button>
-        <h2>Messages</h2>
+      <div class="page-title"><button class="back" onclick="showE('ehome')">←</button><h2>Messages</h2></div>
+      <div class="item" style="display:flex;align-items:center;gap:12px">
+        <div style="width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600">G</div>
+        <div style="flex:1"><div style="font-weight:600;font-size:14px">Guillaume</div><div style="font-size:13px;color:var(--muted)">Merci beaucoup Marie !</div></div>
+        <div style="font-size:11px;color:var(--muted)">09:45</div>
       </div>
       <div class="item" style="display:flex;align-items:center;gap:12px">
-        <div style="width:42px;height:42px;border-radius:50%;background:#1a5f7a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600">G</div>
-        <div style="flex:1"><div style="font-weight:600;font-size:14px">Guillaume</div><div style="font-size:13px;color:#64748b">Merci beaucoup Marie !</div></div>
-        <div style="font-size:11px;color:#64748b">09:45</div>
-      </div>
-      <div class="item" style="display:flex;align-items:center;gap:12px">
-        <div style="width:42px;height:42px;border-radius:50%;background:#1a5f7a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600">J</div>
-        <div style="flex:1"><div style="font-weight:600;font-size:14px">Jean D.</div><div style="font-size:13px;color:#64748b">Le lavabo fuit toujours…</div></div>
-        <div style="font-size:11px;color:#64748b">09:30</div>
+        <div style="width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600">J</div>
+        <div style="flex:1"><div style="font-weight:600;font-size:14px">Jean D.</div><div style="font-size:13px;color:var(--muted)">Le lavabo fuit toujours…</div></div>
+        <div style="font-size:11px;color:var(--muted)">09:30</div>
       </div>
     </section>
 
     <section id="erdv" class="screen">
-      <div class="page-title">
-        <button class="back" onclick="showE('ehome')">←</button>
-        <h2>Agenda</h2>
-      </div>
+      <div class="page-title"><button class="back" onclick="showE('ehome')">←</button><h2>Agenda</h2></div>
       <div class="item">
         <div class="date">Mardi 26 août • 10h30</div>
         <div class="with">Guillaume – Suivi mensuel</div>
@@ -458,33 +453,15 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </section>
 
     <section id="edossier" class="screen">
-      <div class="page-title">
-        <button class="back" onclick="showE('ehome')">←</button>
-        <h2>Dossiers</h2>
-      </div>
+      <div class="page-title"><button class="back" onclick="showE('ehome')">←</button><h2>Dossiers</h2></div>
       <div class="item">
         <div style="font-weight:600;font-size:16px;margin-bottom:14px">Guillaume</div>
         <div class="section-title">Parcours</div>
-        <div class="dossier-item">
-          <div class="dossier-check done clickable" onclick="toggleCheck(this)">✓</div>
-          <div class="dossier-text done">Entrée dans le dispositif</div>
-        </div>
-        <div class="dossier-item">
-          <div class="dossier-check done clickable" onclick="toggleCheck(this)">✓</div>
-          <div class="dossier-text done">Accès au logement</div>
-        </div>
-        <div class="dossier-item">
-          <div class="dossier-check done clickable" onclick="toggleCheck(this)">✓</div>
-          <div class="dossier-text done">Attestation d’hébergement</div>
-        </div>
-        <div class="dossier-item">
-          <div class="dossier-check clickable" onclick="toggleCheck(this)"></div>
-          <div class="dossier-text">Suivi santé / médecin</div>
-        </div>
-        <div class="dossier-item">
-          <div class="dossier-check clickable" onclick="toggleCheck(this)"></div>
-          <div class="dossier-text">Vers plus d’indépendance</div>
-        </div>
+        <div class="dossier-item"><div class="dossier-check done clickable" onclick="toggleCheck(this)">✓</div><div class="dossier-text done">Entrée dans le dispositif</div></div>
+        <div class="dossier-item"><div class="dossier-check done clickable" onclick="toggleCheck(this)">✓</div><div class="dossier-text done">Accès au logement</div></div>
+        <div class="dossier-item"><div class="dossier-check done clickable" onclick="toggleCheck(this)">✓</div><div class="dossier-text done">Attestation d’hébergement</div></div>
+        <div class="dossier-item"><div class="dossier-check clickable" onclick="toggleCheck(this)"></div><div class="dossier-text">Suivi santé / médecin</div></div>
+        <div class="dossier-item"><div class="dossier-check clickable" onclick="toggleCheck(this)"></div><div class="dossier-text">Vers plus d’indépendance</div></div>
         <div class="section-title">Notes internes</div>
         <div class="note-interne">Suivi psychiatrique en cours. Attention aux oublis de traitement.</div>
         <button class="btn-sm p" style="margin-top:14px;width:100%" onclick="toast('Modifications enregistrées')">Enregistrer</button>
@@ -494,88 +471,19 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
 </div>
 
 <script>
-function go(m){
-  document.getElementById('mode').classList.add('hidden');
-  document.getElementById(m).classList.remove('hidden');
-  if(m==='res') show('home');
-  else showE('ehome');
-}
-function back(){
-  document.getElementById('mode').classList.remove('hidden');
-  document.getElementById('res').classList.add('hidden');
-  document.getElementById('edu').classList.add('hidden');
-}
-function show(n){
-  document.querySelectorAll('#res .screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(n).classList.add('active');
-  document.querySelectorAll('#res .nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===n));
-}
-function showE(n){
-  document.querySelectorAll('#edu .screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(n).classList.add('active');
-  document.querySelectorAll('#edu .nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===n));
-}
-function sel(b){
-  document.querySelectorAll('.type').forEach(t=>t.classList.remove('sel'));
-  b.classList.add('sel');
-}
-function sendSignal(){
-  if(!document.querySelector('.type.sel')){toast('Choisissez le type');return}
-  if(!document.getElementById('desc').value.trim()){toast('Ajoutez une description');return}
-  toast('Signalement envoyé ✓');
-  document.getElementById('desc').value='';
-  document.querySelectorAll('.type').forEach(t=>t.classList.remove('sel'));
-  setTimeout(()=>show('home'),900);
-}
-function sendMsg(){
-  const i=document.getElementById('cin'),t=i.value.trim();
-  if(!t)return;
-  const m=document.createElement('div');
-  m.className='msg s';
-  m.innerHTML='<div class="bubble">'+t.replace(/</g,'&lt;')+'</div><div class="time">À l\'instant</div>';
-  document.getElementById('msgs').appendChild(m);
-  i.value='';
-  document.getElementById('msgs').scrollTop=9999;
-}
-function toast(m){
-  let t=document.querySelector('.toast');
-  if(!t){t=document.createElement('div');t.className='toast';document.body.appendChild(t)}
-  t.textContent=m;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2400);
-}
-function takeCharge(btn,id){
-  const card=document.getElementById(id);
-  const status=card.querySelector('.status-line .badge');
-  if(status){status.className='badge warn';status.textContent='En cours'}
-  btn.textContent='En cours';
-  btn.disabled=true;
-  toast('Pris en charge');
-}
-function markSeen(btn){
-  btn.textContent='Vu ✓';
-  btn.style.background='#e0e7ff';
-  btn.style.color='#4338ca';
-  toast('Confirmation de lecture envoyée');
-}
-function quickReply(btn,text){
-  toast('Réponse envoyée : '+text);
-  btn.style.background='#e8f5ee';
-  btn.style.borderColor='#2e8b57';
-}
-function sendFree(id){
-  const t=document.getElementById(id).value.trim();
-  if(!t){toast('Écrivez un message');return}
-  toast('Message envoyé');
-  document.getElementById(id).value='';
-}
-function toggleCheck(el){
-  el.classList.toggle('done');
-  const text=el.nextElementSibling;
-  text.classList.toggle('done');
-  if(el.classList.contains('done')) el.textContent='✓';
-  else el.textContent='';
-}
+function go(m){document.getElementById('mode').classList.add('hidden');document.getElementById(m).classList.remove('hidden');if(m==='res')show('home');else showE('ehome');}
+function back(){document.getElementById('mode').classList.remove('hidden');document.getElementById('res').classList.add('hidden');document.getElementById('edu').classList.add('hidden');}
+function show(n){document.querySelectorAll('#res .screen').forEach(s=>s.classList.remove('active'));document.getElementById(n).classList.add('active');document.querySelectorAll('#res .nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===n));}
+function showE(n){document.querySelectorAll('#edu .screen').forEach(s=>s.classList.remove('active'));document.getElementById(n).classList.add('active');document.querySelectorAll('#edu .nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===n));}
+function sel(b){document.querySelectorAll('.type').forEach(t=>t.classList.remove('sel'));b.classList.add('sel');}
+function sendSignal(){if(!document.querySelector('.type.sel')){toast('Choisissez le type');return;}if(!document.getElementById('desc').value.trim()){toast('Ajoutez une description');return;}toast('Signalement envoyé');document.getElementById('desc').value='';document.querySelectorAll('.type').forEach(t=>t.classList.remove('sel'));setTimeout(()=>show('home'),900);}
+function sendMsg(){const i=document.getElementById('cin'),t=i.value.trim();if(!t)return;const m=document.createElement('div');m.className='msg s';m.innerHTML='<div class="bubble">'+t.replace(/</g,'&lt;')+'</div><div class="time">À l\'instant</div>';document.getElementById('msgs').appendChild(m);i.value='';document.getElementById('msgs').scrollTop=9999;}
+function toast(m){let t=document.querySelector('.toast');if(!t){t=document.createElement('div');t.className='toast';document.body.appendChild(t);}t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+function takeCharge(btn,id){const card=document.getElementById(id);const status=card.querySelector('.status-line .badge');if(status){status.className='badge warn';status.textContent='En cours';}btn.textContent='En cours';btn.disabled=true;toast('Pris en charge');}
+function markSeen(btn){btn.textContent='Vu ✓';btn.style.background='#e0e7ff';btn.style.color='#4338ca';toast('Confirmation de lecture');}
+function quickReply(btn,text){toast('Réponse envoyée : '+text);btn.style.background='#e8f5ee';btn.style.borderColor='#2e8b57';}
+function sendFree(id){const t=document.getElementById(id).value.trim();if(!t){toast('Écrivez un message');return;}toast('Message envoyé');document.getElementById(id).value='';}
+function toggleCheck(el){el.classList.toggle('done');const text=el.nextElementSibling;text.classList.toggle('done');if(el.classList.contains('done'))el.textContent='✓';else el.textContent='';}
 </script>
 </body>
 </html>
