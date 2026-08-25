@@ -114,6 +114,8 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
 </style>
 </head>
 <body>
+
+<!-- PAGE D’ACCUEIL -->
 <div id="mode">
   <div class="card">
     <h1>Logement Plus</h1>
@@ -479,20 +481,92 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
 </div>
 
 <script>
-function go(m){document.getElementById('mode').classList.add('hidden');document.getElementById(m).classList.remove('hidden');if(m==='res')show('home');else showE('dash')}
-function back(){document.getElementById('mode').classList.remove('hidden');document.getElementById('res').classList.add('hidden');document.getElementById('edu').classList.add('hidden')}
-function show(n){document.querySelectorAll('#res .screen').forEach(s=>s.classList.remove('active'));document.getElementById(n).classList.add('active');document.querySelectorAll('#res .nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===n))}
-function showE(n){document.querySelectorAll('#edu .screen').forEach(s=>s.classList.remove('active'));document.getElementById(n).classList.add('active');document.querySelectorAll('#edu .nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===n))}
-function sel(b){document.querySelectorAll('.type').forEach(t=>t.classList.remove('sel'));b.classList.add('sel')}
-function sendSignal(){if(!document.querySelector('.type.sel')){toast('Choisissez le type');return}if(!document.getElementById('desc').value.trim()){toast('Ajoutez une description');return}toast('Signalement envoyé ✓');document.getElementById('desc').value='';document.querySelectorAll('.type').forEach(t=>t.classList.remove('sel'));setTimeout(()=>show('home'),900)}
-function sendMsg(){const i=document.getElementById('cin'),t=i.value.trim();if(!t)return;const m=document.createElement('div');m.className='msg s';m.innerHTML='<div class="bubble">'+t.replace(/</g,'&lt;')+'</div><div class="time">À l\'instant</div>';document.getElementById('msgs').appendChild(m);i.value='';document.getElementById('msgs').scrollTop=9999}
-function toast(m){let t=document.querySelector('.toast');if(!t){t=document.createElement('div');t.className='toast';document.body.appendChild(t)}t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
-function takeCharge(btn,id){const card=document.getElementById(id);const status=card.querySelector('.status-line .badge');if(status){status.className='badge warn';status.textContent='En cours'}btn.textContent='En cours';btn.disabled=true;toast('Pris en charge – le résident est informé')}
-function markSeen(btn){btn.textContent='Vu ✓';btn.style.background='#e0e7ff';btn.style.color='#4338ca';toast('Confirmation de lecture envoyée')}
-function quickReply(btn,text){toast('Réponse envoyée : '+text);btn.style.background='#e8f5ee';btn.style.borderColor='#2e8b57'}
-function sendFree(id){const t=document.getElementById(id).value.trim();if(!t){toast('Écrivez un message');return}toast('Message envoyé');document.getElementById(id).value=''}
-function toggleCheck(el){el.classList.toggle('done');const text=el.nextElementSibling;text.classList.toggle('done');if(el.classList.contains('done'))el.textContent='✓';else el.textContent=''}
-function editMedecin(){const name=prompt('Nom du médecin traitant :');if(name)document.getElementById('medecin-name').textContent=name}
+function go(m){
+  document.getElementById('mode').classList.add('hidden');
+  document.getElementById(m).classList.remove('hidden');
+  if(m==='res') show('home');
+  else showE('dash');
+}
+function back(){
+  document.getElementById('mode').classList.remove('hidden');
+  document.getElementById('res').classList.add('hidden');
+  document.getElementById('edu').classList.add('hidden');
+}
+function show(n){
+  document.querySelectorAll('#res .screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(n).classList.add('active');
+  document.querySelectorAll('#res .nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===n));
+}
+function showE(n){
+  document.querySelectorAll('#edu .screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(n).classList.add('active');
+  document.querySelectorAll('#edu .nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===n));
+}
+function sel(b){
+  document.querySelectorAll('.type').forEach(t=>t.classList.remove('sel'));
+  b.classList.add('sel');
+}
+function sendSignal(){
+  if(!document.querySelector('.type.sel')){toast('Choisissez le type');return}
+  if(!document.getElementById('desc').value.trim()){toast('Ajoutez une description');return}
+  toast('Signalement envoyé ✓');
+  document.getElementById('desc').value='';
+  document.querySelectorAll('.type').forEach(t=>t.classList.remove('sel'));
+  setTimeout(()=>show('home'),900);
+}
+function sendMsg(){
+  const i=document.getElementById('cin'),t=i.value.trim();
+  if(!t)return;
+  const m=document.createElement('div');
+  m.className='msg s';
+  m.innerHTML='<div class="bubble">'+t.replace(/</g,'&lt;')+'</div><div class="time">À l\'instant</div>';
+  document.getElementById('msgs').appendChild(m);
+  i.value='';
+  document.getElementById('msgs').scrollTop=9999;
+}
+function toast(m){
+  let t=document.querySelector('.toast');
+  if(!t){t=document.createElement('div');t.className='toast';document.body.appendChild(t)}
+  t.textContent=m;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2400);
+}
+function takeCharge(btn,id){
+  const card=document.getElementById(id);
+  const status=card.querySelector('.status-line .badge');
+  if(status){status.className='badge warn';status.textContent='En cours'}
+  btn.textContent='En cours';
+  btn.disabled=true;
+  toast('Pris en charge – le résident est informé');
+}
+function markSeen(btn){
+  btn.textContent='Vu ✓';
+  btn.style.background='#e0e7ff';
+  btn.style.color='#4338ca';
+  toast('Confirmation de lecture envoyée');
+}
+function quickReply(btn,text){
+  toast('Réponse envoyée : '+text);
+  btn.style.background='#e8f5ee';
+  btn.style.borderColor='#2e8b57';
+}
+function sendFree(id){
+  const t=document.getElementById(id).value.trim();
+  if(!t){toast('Écrivez un message');return}
+  toast('Message envoyé');
+  document.getElementById(id).value='';
+}
+function toggleCheck(el){
+  el.classList.toggle('done');
+  const text=el.nextElementSibling;
+  text.classList.toggle('done');
+  if(el.classList.contains('done')) el.textContent='✓';
+  else el.textContent='';
+}
+function editMedecin(){
+  const name=prompt('Nom du médecin traitant :');
+  if(name) document.getElementById('medecin-name').textContent=name;
+}
 </script>
 </body>
 </html>
