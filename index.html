@@ -111,12 +111,10 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
 .hist-content strong{display:block;margin-bottom:2px;color:#0f172a}
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:12px 20px;border-radius:30px;font-size:14px;font-weight:500;z-index:200;opacity:0;transition:opacity .3s;max-width:90%;text-align:center}
 .toast.show{opacity:1}
-.alert-badge{display:inline-block;background:#c0392b;color:#fff;font-size:11px;font-weight:600;padding:2px 8px;border-radius:12px;margin-left:8px}
 </style>
 </head>
 <body>
 
-<!-- PAGE D’ACCUEIL -->
 <div id="mode">
   <div class="card">
     <h1>Logement Plus</h1>
@@ -128,7 +126,7 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
   </div>
 </div>
 
-<!-- ===================== RÉSIDENT ===================== -->
+<!-- RÉSIDENT -->
 <div id="res" class="app hidden">
   <header class="header">
     <div class="header-inner">
@@ -143,18 +141,13 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     <button data-s="dossier" onclick="show('dossier')"><span class="ico">📁</span>Parcours</button>
   </nav>
   <main class="content">
-
     <section id="home" class="screen active">
-      <div class="rappel-banner">
-        <span>🔔</span>
-        <div><strong>Rappel</strong> : RDV demain à 10h30 avec Marie</div>
-      </div>
       <div class="notif-banner">
         <span>📩</span>
         <div><strong>Nouveau</strong> : Marie a répondu à votre signalement</div>
       </div>
       <h2>Que souhaitez-vous faire ?</h2>
-      <button class="action urgent" onclick="toast('Alerte urgente envoyée à l’équipe ✓')">
+      <button class="action urgent" onclick="toast('Alerte urgente envoyée ✓')">
         <span class="ico">🚨</span>
         <div><strong>J’ai besoin d’aide urgente</strong><span>Alerte prioritaire</span></div>
       </button>
@@ -188,7 +181,7 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
       </div>
       <label>Description</label>
       <textarea id="desc" placeholder="Ex : Le lavabo fuit depuis ce matin..."></textarea>
-      <button class="outline" onclick="toast('Photo ajoutée (simulation)')">+ Ajouter une photo</button>
+      <button class="outline" onclick="toast('Photo ajoutée')">+ Ajouter une photo</button>
       <button class="full" onclick="sendSignal()">Envoyer le signalement</button>
     </section>
 
@@ -198,34 +191,22 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
       </div>
       <div class="info">
         <h3>Médecin traitant</h3>
-        <p id="medecin-name">Dr. Martin</p>
-        <button class="link" onclick="editMedecin()">Modifier</button>
+        <p>Dr. Martin</p>
       </div>
       <div class="section-title">Prochains rendez-vous</div>
       <div class="item">
         <div class="date">Jeudi 28 août • 14h30</div>
         <div class="with">Dr. Martin – Médecin traitant</div>
-        <div class="status-line"><span class="badge rappel">Rappel activé</span></div>
       </div>
       <div class="item">
         <div class="date">Mardi 2 septembre • 10h00</div>
         <div class="with">Dr. Lefebvre – Psychiatre</div>
       </div>
-      <div class="section-title">Traitements en cours</div>
+      <div class="section-title">Traitements</div>
       <div class="item">
         <div class="date">Traitement A</div>
         <div class="with">1 comprimé le matin</div>
       </div>
-      <div class="item">
-        <div class="date">Traitement B</div>
-        <div class="with">2 comprimés le soir</div>
-      </div>
-      <div class="section-title">Pharmacie</div>
-      <div class="info">
-        <h3>Pharmacie de référence</h3>
-        <p>Pharmacie du Centre – 12 rue de la Paix</p>
-      </div>
-      <button class="outline" onclick="toast('Demande de rappel envoyée')">Demander un rappel pour un RDV</button>
       <button class="action urgent" style="margin-top:12px" onclick="toast('Problème de santé signalé')">
         <span class="ico">🩺</span>
         <div><strong>J’ai un problème de santé</strong><span>Signaler rapidement</span></div>
@@ -245,18 +226,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
           <div class="hist-date">Aujourd’hui<br>09:15</div>
           <div class="hist-content"><strong>Signalement envoyé</strong>Lavabo qui fuit</div>
         </div>
-        <div class="hist-item">
-          <div class="hist-date">18 août</div>
-          <div class="hist-content"><strong>Rendez-vous effectué</strong>Suivi avec Marie L.</div>
-        </div>
-        <div class="hist-item">
-          <div class="hist-date">12 août</div>
-          <div class="hist-content"><strong>Étape validée</strong>Attestation d’hébergement</div>
-        </div>
-        <div class="hist-item">
-          <div class="hist-date">5 août</div>
-          <div class="hist-content"><strong>Problème résolu</strong>Ampoule grillée</div>
-        </div>
       </div>
     </section>
 
@@ -266,11 +235,11 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
       </div>
       <div class="chat">
         <div class="msgs" id="msgs">
-          <div class="msg r"><div class="bubble">Bonjour Guillaume, j’ai bien reçu votre signalement. On s’en occupe.</div><div class="time">Aujourd’hui • 09:42 • Lu</div></div>
+          <div class="msg r"><div class="bubble">Bonjour Guillaume, j’ai bien reçu votre signalement. On s’en occupe.</div><div class="time">Aujourd’hui • 09:42</div></div>
           <div class="msg s"><div class="bubble">Merci beaucoup Marie !</div><div class="time">09:45</div></div>
         </div>
         <div class="input">
-          <button class="voice-btn" onclick="toast('Message vocal enregistré (simulation)')">🎤</button>
+          <button class="voice-btn" onclick="toast('Message vocal (simulation)')">🎤</button>
           <input id="cin" placeholder="Écrire un message..." onkeypress="if(event.key==='Enter')sendMsg()">
           <button class="send" onclick="sendMsg()">↑</button>
         </div>
@@ -284,9 +253,8 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
       <div class="item">
         <div class="date">Mardi 26 août • 10h30</div>
         <div class="with">Avec Marie L. (référente)</div>
-        <div class="status-line"><span class="badge rappel">Rappel activé</span></div>
         <div class="actions">
-          <button class="btn-sm p" onclick="this.textContent='Confirmé ✓';this.style.background='#2e8b57';this.style.color='#fff';toast('Rendez-vous confirmé')">Confirmer</button>
+          <button class="btn-sm p" onclick="toast('Rendez-vous confirmé')">Confirmer</button>
           <button class="btn-sm" onclick="toast('Demande de report envoyée')">Reporter</button>
         </div>
       </div>
@@ -299,20 +267,15 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
       <div class="item">
         <div class="dossier-item"><div class="dossier-check done">✓</div><div class="dossier-text done">Entrée dans le dispositif</div></div>
         <div class="dossier-item"><div class="dossier-check done">✓</div><div class="dossier-text done">Accès au logement</div></div>
-        <div class="dossier-item"><div class="dossier-check done">✓</div><div class="dossier-text done">Ouverture des droits</div></div>
         <div class="dossier-item"><div class="dossier-check done">✓</div><div class="dossier-text done">Attestation d’hébergement</div></div>
-        <div class="dossier-item"><div class="dossier-check"></div><div class="dossier-text">Ouverture compte bancaire</div></div>
         <div class="dossier-item"><div class="dossier-check"></div><div class="dossier-text">Suivi santé / médecin</div></div>
-        <div class="dossier-item"><div class="dossier-check"></div><div class="dossier-text">Suivi régulier en place</div></div>
-        <div class="dossier-item"><div class="dossier-check"></div><div class="dossier-text">Objectifs personnels</div></div>
         <div class="dossier-item"><div class="dossier-check"></div><div class="dossier-text">Vers plus d’indépendance</div></div>
       </div>
-      <p style="font-size:13px;color:#64748b;margin-top:14px">Ces étapes sont validées uniquement par votre référent.</p>
     </section>
   </main>
 </div>
 
-<!-- ===================== ÉDUCATEUR ===================== -->
+<!-- ÉDUCATEUR -->
 <div id="edu" class="app hidden">
   <header class="header dark">
     <div class="header-inner">
@@ -329,7 +292,7 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
   </nav>
   <main class="content">
 
-    <!-- NOUVELLE PAGE D’ACCUEIL ÉDUCATEUR -->
+    <!-- PAGE D’ACCUEIL ÉDUCATEUR (même structure que résident) -->
     <section id="ehome" class="screen active">
       <div class="notif-banner">
         <span>🚨</span>
@@ -371,7 +334,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
         <div class="stat"><div class="n">3</div><div class="l">En attente</div></div>
         <div class="stat"><div class="n">1</div><div class="l">Urgent</div></div>
       </div>
-      
       <div class="item req urgent" id="req1">
         <div class="top"><span class="badge bad">URGENT</span><span style="font-size:12px;color:#64748b">Il y a 12 min</span></div>
         <div class="title">Jean D. • Lavabo qui fuit</div>
@@ -392,29 +354,16 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
         </div>
         <div class="note-interne"><strong>Note interne :</strong> Situation fragile, passer rapidement.</div>
       </div>
-
-      <div class="item req" id="req2">
-        <div class="top"><span class="badge ok">Petit souci</span><span style="font-size:12px;color:#64748b">Il y a 1h</span></div>
-        <div class="title">Sophie M. • Ampoule grillée</div>
-        <div class="status-line"><span class="badge recu">Reçu</span></div>
-        <div class="actions">
-          <button class="btn-sm" onclick="markSeen(this)">Marquer vu</button>
-          <button class="btn-sm p" onclick="takeCharge(this,'req2')">Je m’en occupe</button>
-        </div>
-      </div>
     </section>
 
-    <!-- SUIVI SANTÉ ÉDUCATEUR -->
     <section id="esante" class="screen">
       <div style="display:flex;align-items:center;margin-bottom:16px">
         <button class="back" onclick="showE('ehome')">←</button><h2 style="margin:0">Suivi santé</h2>
       </div>
-
       <div class="notif-banner">
         <span>🩺</span>
         <div><strong>Alerte</strong> : Guillaume a signalé un problème de santé</div>
       </div>
-
       <div class="item">
         <div class="date">Guillaume</div>
         <div class="with">Médecin traitant : Dr. Martin</div>
@@ -424,19 +373,10 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
           <button class="btn-sm" onclick="showE('edossier')">Voir le dossier</button>
         </div>
       </div>
-
       <div class="section-title">RDV santé à venir</div>
       <div class="item">
         <div class="date">Jeudi 28 août • 14h30</div>
         <div class="with">Guillaume – Dr. Martin</div>
-      </div>
-      <div class="item">
-        <div class="date">Mardi 2 septembre • 10h00</div>
-        <div class="with">Guillaume – Dr. Lefebvre (Psychiatre)</div>
-      </div>
-
-      <div class="note-interne">
-        <strong>Note interne :</strong> Attention aux oublis de traitement. Suivi psychiatrique en cours.
       </div>
     </section>
 
@@ -449,11 +389,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
         <div style="flex:1"><div style="font-weight:600;font-size:14px">Guillaume</div><div style="font-size:13px;color:#64748b">Merci beaucoup Marie !</div></div>
         <div style="font-size:11px;color:#64748b">09:45</div>
       </div>
-      <div class="item" style="display:flex;align-items:center;gap:12px">
-        <div style="width:42px;height:42px;border-radius:50%;background:#1a5f7a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600">J</div>
-        <div style="flex:1"><div style="font-weight:600;font-size:14px">Jean D.</div><div style="font-size:13px;color:#64748b">Le lavabo fuit toujours…</div></div>
-        <div style="font-size:11px;color:#64748b">09:30</div>
-      </div>
     </section>
 
     <section id="erdv" class="screen">
@@ -465,11 +400,6 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
         <div class="with">Guillaume – Suivi mensuel</div>
         <div class="status-line"><span class="badge ok">Confirmé</span></div>
       </div>
-      <div class="item">
-        <div class="date">Mercredi 27 août • 15h00</div>
-        <div class="with">Sophie M. – Visite logement</div>
-        <div class="status-line"><span class="badge rappel">Rappel activé</span></div>
-      </div>
     </section>
 
     <section id="edossier" class="screen">
@@ -477,9 +407,7 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
         <button class="back" onclick="showE('ehome')">←</button><h2 style="margin:0">Dossiers</h2>
       </div>
       <div class="item">
-        <div style="font-weight:600;font-size:16px;margin-bottom:14px;color:#0f172a">Guillaume</div>
-
-        <div class="section-title">Parcours</div>
+        <div style="font-weight:600;font-size:16px;margin-bottom:14px">Guillaume</div>
         <div class="dossier-item">
           <div class="dossier-check done clickable" onclick="toggleCheck(this)">✓</div>
           <div class="dossier-text done">Entrée dans le dispositif</div>
@@ -492,19 +420,7 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
           <div class="dossier-check clickable" onclick="toggleCheck(this)"></div>
           <div class="dossier-text">Suivi santé / médecin</div>
         </div>
-        <div class="dossier-item">
-          <div class="dossier-check clickable" onclick="toggleCheck(this)"></div>
-          <div class="dossier-text">Vers plus d’indépendance</div>
-        </div>
-
-        <div class="section-title">Suivi santé</div>
-        <div class="info">
-          <h3>Médecin traitant</h3>
-          <p>Dr. Martin</p>
-        </div>
-        <div class="note-interne"><strong>Note interne :</strong> Suivi psychiatrique en cours. Attention aux oublis de traitement.</div>
-
-        <button class="btn-sm p" style="margin-top:14px;width:100%" onclick="toast('Modifications enregistrées')">Enregistrer</button>
+        <div class="note-interne"><strong>Note interne :</strong> Suivi psychiatrique en cours.</div>
       </div>
     </section>
   </main>
@@ -567,7 +483,7 @@ function takeCharge(btn,id){
   if(status){status.className='badge warn';status.textContent='En cours'}
   btn.textContent='En cours';
   btn.disabled=true;
-  toast('Pris en charge – le résident est informé');
+  toast('Pris en charge');
 }
 function markSeen(btn){
   btn.textContent='Vu ✓';
@@ -592,10 +508,6 @@ function toggleCheck(el){
   text.classList.toggle('done');
   if(el.classList.contains('done')) el.textContent='✓';
   else el.textContent='';
-}
-function editMedecin(){
-  const name=prompt('Nom du médecin traitant :');
-  if(name) document.getElementById('medecin-name').textContent=name;
 }
 </script>
 </body>
