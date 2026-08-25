@@ -111,6 +111,8 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
 .hist-content strong{display:block;margin-bottom:2px;color:#0f172a}
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:12px 20px;border-radius:30px;font-size:14px;font-weight:500;z-index:200;opacity:0;transition:opacity .3s;max-width:90%;text-align:center}
 .toast.show{opacity:1}
+.page-title{display:flex;align-items:center;margin-bottom:16px}
+.page-title h2{margin:0}
 </style>
 </head>
 <body>
@@ -126,7 +128,7 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
   </div>
 </div>
 
-<!-- RÉSIDENT -->
+<!-- ===================== RÉSIDENT ===================== -->
 <div id="res" class="app hidden">
   <header class="header">
     <div class="header-inner">
@@ -141,6 +143,7 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     <button data-s="dossier" onclick="show('dossier')"><span class="ico">📁</span>Parcours</button>
   </nav>
   <main class="content">
+
     <section id="home" class="screen active">
       <div class="notif-banner">
         <span>📩</span>
@@ -171,8 +174,9 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </section>
 
     <section id="signal" class="screen">
-      <div style="display:flex;align-items:center;margin-bottom:16px">
-        <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Signaler un souci</h2>
+      <div class="page-title">
+        <button class="back" onclick="show('home')">←</button>
+        <h2>Signaler un souci</h2>
       </div>
       <label>Type de problème</label>
       <div class="types">
@@ -186,8 +190,9 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </section>
 
     <section id="sante" class="screen">
-      <div style="display:flex;align-items:center;margin-bottom:16px">
-        <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Mon suivi santé</h2>
+      <div class="page-title">
+        <button class="back" onclick="show('home')">←</button>
+        <h2>Mon suivi santé</h2>
       </div>
       <div class="info">
         <h3>Médecin traitant</h3>
@@ -197,15 +202,20 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
       <div class="item">
         <div class="date">Jeudi 28 août • 14h30</div>
         <div class="with">Dr. Martin – Médecin traitant</div>
+        <div class="status-line"><span class="badge rappel">Rappel activé</span></div>
       </div>
       <div class="item">
         <div class="date">Mardi 2 septembre • 10h00</div>
         <div class="with">Dr. Lefebvre – Psychiatre</div>
       </div>
-      <div class="section-title">Traitements</div>
+      <div class="section-title">Traitements en cours</div>
       <div class="item">
         <div class="date">Traitement A</div>
         <div class="with">1 comprimé le matin</div>
+      </div>
+      <div class="item">
+        <div class="date">Traitement B</div>
+        <div class="with">2 comprimés le soir</div>
       </div>
       <button class="action urgent" style="margin-top:12px" onclick="toast('Problème de santé signalé')">
         <span class="ico">🩺</span>
@@ -214,8 +224,9 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </section>
 
     <section id="histo" class="screen">
-      <div style="display:flex;align-items:center;margin-bottom:16px">
-        <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Mon historique</h2>
+      <div class="page-title">
+        <button class="back" onclick="show('home')">←</button>
+        <h2>Mon historique</h2>
       </div>
       <div class="item">
         <div class="hist-item">
@@ -226,12 +237,21 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
           <div class="hist-date">Aujourd’hui<br>09:15</div>
           <div class="hist-content"><strong>Signalement envoyé</strong>Lavabo qui fuit</div>
         </div>
+        <div class="hist-item">
+          <div class="hist-date">18 août</div>
+          <div class="hist-content"><strong>Rendez-vous effectué</strong>Suivi avec Marie L.</div>
+        </div>
+        <div class="hist-item">
+          <div class="hist-date">12 août</div>
+          <div class="hist-content"><strong>Étape validée</strong>Attestation d’hébergement</div>
+        </div>
       </div>
     </section>
 
     <section id="msg" class="screen">
-      <div style="display:flex;align-items:center;margin-bottom:16px">
-        <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Messages</h2>
+      <div class="page-title">
+        <button class="back" onclick="show('home')">←</button>
+        <h2>Messages</h2>
       </div>
       <div class="chat">
         <div class="msgs" id="msgs">
@@ -247,35 +267,48 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </section>
 
     <section id="rdv" class="screen">
-      <div style="display:flex;align-items:center;margin-bottom:16px">
-        <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Mes rendez-vous</h2>
+      <div class="page-title">
+        <button class="back" onclick="show('home')">←</button>
+        <h2>Mes rendez-vous</h2>
       </div>
       <div class="item">
         <div class="date">Mardi 26 août • 10h30</div>
         <div class="with">Avec Marie L. (référente)</div>
+        <div class="status-line"><span class="badge rappel">Rappel activé</span></div>
         <div class="actions">
           <button class="btn-sm p" onclick="toast('Rendez-vous confirmé')">Confirmer</button>
           <button class="btn-sm" onclick="toast('Demande de report envoyée')">Reporter</button>
         </div>
       </div>
+      <div class="item" style="opacity:.7">
+        <div class="date">Lundi 18 août • 14h00</div>
+        <div class="with">Avec Marie L.</div>
+        <div style="font-size:13px;color:#2e8b57;margin-top:6px">✓ Effectué</div>
+      </div>
     </section>
 
     <section id="dossier" class="screen">
-      <div style="display:flex;align-items:center;margin-bottom:16px">
-        <button class="back" onclick="show('home')">←</button><h2 style="margin:0">Mon parcours</h2>
+      <div class="page-title">
+        <button class="back" onclick="show('home')">←</button>
+        <h2>Mon parcours</h2>
       </div>
       <div class="item">
         <div class="dossier-item"><div class="dossier-check done">✓</div><div class="dossier-text done">Entrée dans le dispositif</div></div>
         <div class="dossier-item"><div class="dossier-check done">✓</div><div class="dossier-text done">Accès au logement</div></div>
+        <div class="dossier-item"><div class="dossier-check done">✓</div><div class="dossier-text done">Ouverture des droits</div></div>
         <div class="dossier-item"><div class="dossier-check done">✓</div><div class="dossier-text done">Attestation d’hébergement</div></div>
+        <div class="dossier-item"><div class="dossier-check"></div><div class="dossier-text">Ouverture compte bancaire</div></div>
         <div class="dossier-item"><div class="dossier-check"></div><div class="dossier-text">Suivi santé / médecin</div></div>
+        <div class="dossier-item"><div class="dossier-check"></div><div class="dossier-text">Suivi régulier en place</div></div>
+        <div class="dossier-item"><div class="dossier-check"></div><div class="dossier-text">Objectifs personnels</div></div>
         <div class="dossier-item"><div class="dossier-check"></div><div class="dossier-text">Vers plus d’indépendance</div></div>
       </div>
+      <p style="font-size:13px;color:#64748b;margin-top:14px">Ces étapes sont validées uniquement par votre référent.</p>
     </section>
   </main>
 </div>
 
-<!-- ÉDUCATEUR -->
+<!-- ===================== ÉDUCATEUR ===================== -->
 <div id="edu" class="app hidden">
   <header class="header dark">
     <div class="header-inner">
@@ -292,34 +325,28 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
   </nav>
   <main class="content">
 
-    <!-- PAGE D’ACCUEIL ÉDUCATEUR (même structure que résident) -->
     <section id="ehome" class="screen active">
       <div class="notif-banner">
         <span>🚨</span>
         <div><strong>1 alerte urgente</strong> + 1 signalement santé</div>
       </div>
       <h2>Que souhaitez-vous faire ?</h2>
-
       <button class="action urgent" onclick="showE('dash')">
         <span class="ico">🚨</span>
         <div><strong>Demandes urgentes</strong><span>1 alerte prioritaire</span></div>
       </button>
-
       <button class="action" onclick="showE('dash')">
         <span class="ico">🔧</span>
         <div><strong>Toutes les demandes</strong><span>3 en attente</span></div>
       </button>
-
       <button class="action secondary" onclick="showE('esante')">
         <span class="ico">🩺</span>
         <div><strong>Suivi santé</strong><span>Alertes + dossiers santé</span></div>
       </button>
-
       <div class="quick">
         <button onclick="showE('emsg')"><span class="ico">💬</span>Messages</button>
         <button onclick="showE('erdv')"><span class="ico">📅</span>Agenda</button>
       </div>
-
       <div class="info">
         <h3>Résumé du jour</h3>
         <p>1 urgence • 2 RDV • 1 alerte santé</p>
@@ -327,8 +354,9 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
     </section>
 
     <section id="dash" class="screen">
-      <div style="display:flex;align-items:center;margin-bottom:16px">
-        <button class="back" onclick="showE('ehome')">←</button><h2 style="margin:0">Demandes</h2>
+      <div class="page-title">
+        <button class="back" onclick="showE('ehome')">←</button>
+        <h2>Demandes</h2>
       </div>
       <div class="stats">
         <div class="stat"><div class="n">3</div><div class="l">En attente</div></div>
@@ -354,11 +382,22 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
         </div>
         <div class="note-interne"><strong>Note interne :</strong> Situation fragile, passer rapidement.</div>
       </div>
+
+      <div class="item req">
+        <div class="top"><span class="badge ok">Petit souci</span><span style="font-size:12px;color:#64748b">Il y a 1h</span></div>
+        <div class="title">Sophie M. • Ampoule grillée</div>
+        <div class="status-line"><span class="badge recu">Reçu</span></div>
+        <div class="actions">
+          <button class="btn-sm" onclick="markSeen(this)">Marquer vu</button>
+          <button class="btn-sm p" onclick="takeCharge(this,'req2')">Je m’en occupe</button>
+        </div>
+      </div>
     </section>
 
     <section id="esante" class="screen">
-      <div style="display:flex;align-items:center;margin-bottom:16px">
-        <button class="back" onclick="showE('ehome')">←</button><h2 style="margin:0">Suivi santé</h2>
+      <div class="page-title">
+        <button class="back" onclick="showE('ehome')">←</button>
+        <h2>Suivi santé</h2>
       </div>
       <div class="notif-banner">
         <span>🩺</span>
@@ -378,36 +417,54 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
         <div class="date">Jeudi 28 août • 14h30</div>
         <div class="with">Guillaume – Dr. Martin</div>
       </div>
+      <div class="item">
+        <div class="date">Mardi 2 septembre • 10h00</div>
+        <div class="with">Guillaume – Dr. Lefebvre (Psychiatre)</div>
+      </div>
     </section>
 
     <section id="emsg" class="screen">
-      <div style="display:flex;align-items:center;margin-bottom:16px">
-        <button class="back" onclick="showE('ehome')">←</button><h2 style="margin:0">Messages</h2>
+      <div class="page-title">
+        <button class="back" onclick="showE('ehome')">←</button>
+        <h2>Messages</h2>
       </div>
       <div class="item" style="display:flex;align-items:center;gap:12px">
         <div style="width:42px;height:42px;border-radius:50%;background:#1a5f7a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600">G</div>
         <div style="flex:1"><div style="font-weight:600;font-size:14px">Guillaume</div><div style="font-size:13px;color:#64748b">Merci beaucoup Marie !</div></div>
         <div style="font-size:11px;color:#64748b">09:45</div>
       </div>
+      <div class="item" style="display:flex;align-items:center;gap:12px">
+        <div style="width:42px;height:42px;border-radius:50%;background:#1a5f7a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600">J</div>
+        <div style="flex:1"><div style="font-weight:600;font-size:14px">Jean D.</div><div style="font-size:13px;color:#64748b">Le lavabo fuit toujours…</div></div>
+        <div style="font-size:11px;color:#64748b">09:30</div>
+      </div>
     </section>
 
     <section id="erdv" class="screen">
-      <div style="display:flex;align-items:center;margin-bottom:16px">
-        <button class="back" onclick="showE('ehome')">←</button><h2 style="margin:0">Agenda</h2>
+      <div class="page-title">
+        <button class="back" onclick="showE('ehome')">←</button>
+        <h2>Agenda</h2>
       </div>
       <div class="item">
         <div class="date">Mardi 26 août • 10h30</div>
         <div class="with">Guillaume – Suivi mensuel</div>
         <div class="status-line"><span class="badge ok">Confirmé</span></div>
       </div>
+      <div class="item">
+        <div class="date">Mercredi 27 août • 15h00</div>
+        <div class="with">Sophie M. – Visite logement</div>
+        <div class="status-line"><span class="badge rappel">Rappel activé</span></div>
+      </div>
     </section>
 
     <section id="edossier" class="screen">
-      <div style="display:flex;align-items:center;margin-bottom:16px">
-        <button class="back" onclick="showE('ehome')">←</button><h2 style="margin:0">Dossiers</h2>
+      <div class="page-title">
+        <button class="back" onclick="showE('ehome')">←</button>
+        <h2>Dossiers</h2>
       </div>
       <div class="item">
         <div style="font-weight:600;font-size:16px;margin-bottom:14px">Guillaume</div>
+        <div class="section-title">Parcours</div>
         <div class="dossier-item">
           <div class="dossier-check done clickable" onclick="toggleCheck(this)">✓</div>
           <div class="dossier-text done">Entrée dans le dispositif</div>
@@ -417,10 +474,20 @@ textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px;f
           <div class="dossier-text done">Accès au logement</div>
         </div>
         <div class="dossier-item">
+          <div class="dossier-check done clickable" onclick="toggleCheck(this)">✓</div>
+          <div class="dossier-text done">Attestation d’hébergement</div>
+        </div>
+        <div class="dossier-item">
           <div class="dossier-check clickable" onclick="toggleCheck(this)"></div>
           <div class="dossier-text">Suivi santé / médecin</div>
         </div>
-        <div class="note-interne"><strong>Note interne :</strong> Suivi psychiatrique en cours.</div>
+        <div class="dossier-item">
+          <div class="dossier-check clickable" onclick="toggleCheck(this)"></div>
+          <div class="dossier-text">Vers plus d’indépendance</div>
+        </div>
+        <div class="section-title">Notes internes</div>
+        <div class="note-interne">Suivi psychiatrique en cours. Attention aux oublis de traitement.</div>
+        <button class="btn-sm p" style="margin-top:14px;width:100%" onclick="toast('Modifications enregistrées')">Enregistrer</button>
       </div>
     </section>
   </main>
