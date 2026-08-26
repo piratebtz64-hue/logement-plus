@@ -77,6 +77,11 @@ textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:
 .voice-btn{width:40px;height:40px;border-radius:50%;background:#f1f5f9;border:none;font-size:16px;flex-shrink:0}
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:10px 18px;border-radius:24px;font-size:13px;font-weight:500;z-index:200;opacity:0;transition:opacity .3s;max-width:90%;text-align:center}.toast.show{opacity:1}
 .avatar{width:38px;height:38px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;flex-shrink:0}
+.dash-card{background:#fff;border-radius:12px;padding:12px;margin-bottom:10px;box-shadow:0 1px 8px rgba(0,0,0,.04);display:flex;align-items:flex-start;gap:12px}
+.dash-card .info-col{flex:1;min-width:0}
+.dash-card .name{font-weight:600;font-size:14px;margin-bottom:2px}
+.dash-card .meta{font-size:12px;color:var(--muted);margin-bottom:6px}
+.dash-card .tags{display:flex;flex-wrap:wrap;gap:4px}
 </style>
 </head>
 <body>
@@ -218,15 +223,66 @@ textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:
 
     <section id="ehome" class="screen active">
       <div class="notif-banner"><span>🚨</span><div><strong>1 alerte urgente</strong> + 1 signalement santé</div></div>
-      <h2>Que souhaitez-vous faire ?</h2>
+      <h2>Vue d’ensemble</h2>
+      <div class="stats">
+        <div class="stat"><div class="n">4</div><div class="l">Résidents</div></div>
+        <div class="stat"><div class="n">1</div><div class="l">Urgent</div></div>
+      </div>
+
+      <div class="section-title">Tous les dossiers en cours</div>
+
+      <div class="dash-card" onclick="showDossier('jean')">
+        <div class="avatar">J</div>
+        <div class="info-col">
+          <div class="name">Jean D.</div>
+          <div class="meta">8 mois • RDV : Ven 29 août</div>
+          <div class="tags">
+            <span class="badge bad">Urgence technique</span>
+            <span class="badge warn">Suivi fragile</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-card" onclick="showDossier('guillaume')">
+        <div class="avatar">G</div>
+        <div class="info-col">
+          <div class="name">Guillaume</div>
+          <div class="meta">4 ans • RDV : Mar 26 août</div>
+          <div class="tags">
+            <span class="badge bad">Alerte santé</span>
+            <span class="badge warn">5 étapes restantes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-card" onclick="showDossier('karim')">
+        <div class="avatar">K</div>
+        <div class="info-col">
+          <div class="name">Karim B.</div>
+          <div class="meta">3 semaines • RDV : Lun 1 sept.</div>
+          <div class="tags">
+            <span class="badge warn">Nouveau</span>
+            <span class="badge recu">7 étapes restantes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-card" onclick="showDossier('sophie')">
+        <div class="avatar">S</div>
+        <div class="info-col">
+          <div class="name">Sophie M.</div>
+          <div class="meta">1 an 3 mois • RDV : Mer 27 août</div>
+          <div class="tags">
+            <span class="badge ok">Autonome</span>
+            <span class="badge ok">3 étapes restantes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:18px">Actions rapides</div>
       <button class="action urgent" onclick="showE('dash')"><span class="ico">🚨</span><div><strong>Demandes urgentes</strong><span>1 alerte prioritaire</span></div></button>
       <button class="action green" onclick="showE('dash')"><span class="ico">🔧</span><div><strong>Toutes les demandes</strong><span>3 en attente</span></div></button>
       <button class="action blue" onclick="showE('esante')"><span class="ico">🩺</span><div><strong>Suivi santé</strong><span>Alertes + dossiers santé</span></div></button>
-      <div class="quick">
-        <button onclick="showE('emsg')"><span class="ico">💬</span>Messages</button>
-        <button onclick="showE('erdv')"><span class="ico">📅</span>Agenda</button>
-      </div>
-      <div class="info"><h3>Résumé du jour</h3><p>1 urgence • 2 RDV • 1 alerte santé</p></div>
     </section>
 
     <section id="dash" class="screen">
@@ -236,7 +292,6 @@ textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:
         <div class="stat"><div class="n">1</div><div class="l">Urgent</div></div>
       </div>
 
-      <!-- Demande 1 - Urgent -->
       <div class="item req urgent" id="req1">
         <div class="top"><span class="badge bad">URGENT</span><span style="font-size:11px;color:var(--muted)">Il y a 12 min</span></div>
         <div class="title">Jean D. • Lavabo qui fuit</div>
@@ -252,7 +307,6 @@ textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:
         <div class="note-interne"><strong>Note interne :</strong> Situation fragile, passer rapidement.</div>
       </div>
 
-      <!-- Demande 2 -->
       <div class="item req">
         <div class="top"><span class="badge ok">Petit souci</span><span style="font-size:11px;color:var(--muted)">Il y a 1h</span></div>
         <div class="title">Sophie M. • Ampoule grillée</div>
@@ -261,7 +315,6 @@ textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:
         <div class="actions"><button class="btn-sm" onclick="markSeen(this)">Marquer vu</button><button class="btn-sm p" onclick="takeCharge(this,'req2')">Je m’en occupe</button></div>
       </div>
 
-      <!-- Demande 3 -->
       <div class="item req">
         <div class="top"><span class="badge ok">Petit souci</span><span style="font-size:11px;color:var(--muted)">Hier</span></div>
         <div class="title">Karim B. • Chauffage faible</div>
@@ -336,32 +389,30 @@ textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:
     <section id="edossier" class="screen">
       <div class="page-title"><button class="back" onclick="showE('ehome')">←</button><h2>Dossiers</h2></div>
 
-      <!-- Liste des résidents -->
       <div class="item" style="display:flex;align-items:center;gap:10px" onclick="showDossier('guillaume')">
         <div class="avatar">G</div>
-        <div style="flex:1"><div style="font-weight:600;font-size:14px">Guillaume</div><div style="font-size:12px;color:var(--muted)">4 ans dans le dispositif</div></div>
+        <div style="flex:1"><div style="font-weight:600;font-size:14px">Guillaume</div><div style="font-size:12px;color:var(--muted)">4 ans • Alerte santé</div></div>
         <div style="font-size:12px;color:var(--primary)">Voir →</div>
       </div>
 
       <div class="item" style="display:flex;align-items:center;gap:10px" onclick="showDossier('sophie')">
         <div class="avatar">S</div>
-        <div style="flex:1"><div style="font-weight:600;font-size:14px">Sophie M.</div><div style="font-size:12px;color:var(--muted)">1 an 3 mois</div></div>
+        <div style="flex:1"><div style="font-weight:600;font-size:14px">Sophie M.</div><div style="font-size:12px;color:var(--muted)">1 an 3 mois • Autonome</div></div>
         <div style="font-size:12px;color:var(--primary)">Voir →</div>
       </div>
 
       <div class="item" style="display:flex;align-items:center;gap:10px" onclick="showDossier('jean')">
         <div class="avatar">J</div>
-        <div style="flex:1"><div style="font-weight:600;font-size:14px">Jean D.</div><div style="font-size:12px;color:var(--muted)">8 mois</div></div>
+        <div style="flex:1"><div style="font-weight:600;font-size:14px">Jean D.</div><div style="font-size:12px;color:var(--muted)">8 mois • Suivi fragile</div></div>
         <div style="font-size:12px;color:var(--primary)">Voir →</div>
       </div>
 
       <div class="item" style="display:flex;align-items:center;gap:10px" onclick="showDossier('karim')">
         <div class="avatar">K</div>
-        <div style="flex:1"><div style="font-weight:600;font-size:14px">Karim B.</div><div style="font-size:12px;color:var(--muted)">3 semaines</div></div>
+        <div style="flex:1"><div style="font-weight:600;font-size:14px">Karim B.</div><div style="font-size:12px;color:var(--muted)">3 semaines • Nouveau</div></div>
         <div style="font-size:12px;color:var(--primary)">Voir →</div>
       </div>
 
-      <!-- Détail dossier (caché par défaut) -->
       <div id="dossier-detail" class="hidden" style="margin-top:16px">
         <div class="item">
           <div style="font-weight:600;font-size:15px;margin-bottom:12px" id="dossier-name">Guillaume</div>
@@ -446,7 +497,7 @@ function show(n){document.querySelectorAll('#res .screen').forEach(s=>s.classLis
 function showE(n){document.querySelectorAll('#edu .screen').forEach(s=>s.classList.remove('active'));document.getElementById(n).classList.add('active');document.querySelectorAll('#edu .nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===n));if(n==='edossier')hideDossier();}
 function sel(b){document.querySelectorAll('.type').forEach(t=>t.classList.remove('sel'));b.classList.add('sel');}
 function sendSignal(){if(!document.querySelector('.type.sel')){toast('Choisissez le type');return;}if(!document.getElementById('desc').value.trim()){toast('Ajoutez une description');return;}toast('Signalement envoyé');document.getElementById('desc').value='';document.querySelectorAll('.type').forEach(t=>t.classList.remove('sel'));setTimeout(()=>show('home'),900);}
-function sendMsg(){const i=document.getElementById('cin'),t=i.value.trim();if(!t)return;const m=document.createElement('div');m.className='msg s';m.innerHTML='<div class="bubble">'+t.replace(/</g,'&lt;')+'</div><div class="time">À l\'instant</div>';document.getElementById('msgs').appendChild(m);i.value='';document.getElementById('msgs').scrollTop=9999;}
+function sendMsg(){const i=document.getElementById('cin'),t=i.value.trim();if(!t)return;const m=document.createElement('div');m.className='msg s';m.innerHTML='<div class="bubble">'+t.replace(/</g,'<')+'</div><div class="time">À l\'instant</div>';document.getElementById('msgs').appendChild(m);i.value='';document.getElementById('msgs').scrollTop=9999;}
 function toast(m){let t=document.querySelector('.toast');if(!t){t=document.createElement('div');t.className='toast';document.body.appendChild(t);}t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
 function takeCharge(btn,id){const card=document.getElementById(id);const status=card.querySelector('.status-line .badge');if(status){status.className='badge warn';status.textContent='En cours';}btn.textContent='En cours';btn.disabled=true;toast('Pris en charge');}
 function markSeen(btn){btn.textContent='Vu ✓';btn.style.background='#e0e7ff';btn.style.color='#4338ca';toast('Confirmation de lecture');}
@@ -466,10 +517,10 @@ function showDossier(id){
       <div class="dossier-text ${s.done?'done':''}">${s.text}</div>
     </div>`).join('');
   document.getElementById('dossier-detail').classList.remove('hidden');
-  // Cacher la liste
   document.querySelectorAll('#edossier > .item').forEach(el => {
     if(el.id !== 'dossier-detail') el.style.display = 'none';
   });
+  showE('edossier');
 }
 function hideDossier(){
   document.getElementById('dossier-detail').classList.add('hidden');
