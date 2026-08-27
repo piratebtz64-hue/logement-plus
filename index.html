@@ -1,1 +1,182 @@
-<placeholder>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Logement Plus</title>
+<style>
+:root{--p:#1a5f7a;--d:#0f3a4f;--ok:#2e8b57;--urg:#c0392b;--bg:#f1f5f9;--t:#0f172a;--m:#64748b;--b:#e2e8f0}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{font-family:-apple-system,Inter,sans-serif;background:#0f172a;color:var(--t);height:100%}
+.hidden{display:none!important}
+#mode{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(160deg,#0f172a,#1e3a5f)}
+.card{background:#fff;border-radius:24px;padding:36px 24px;width:100%;max-width:360px;text-align:center}
+.card h1{color:var(--p);margin-bottom:8px}
+.btn{border:0;border-radius:14px;font-size:16px;font-weight:600;padding:16px;width:100%;margin:8px 0}
+.btn-p{background:var(--p);color:#fff}.btn-s{background:#f1f5f9}
+.app{min-height:100dvh;background:var(--bg);display:flex;flex-direction:column}
+.header{background:var(--p);color:#fff;padding:12px 16px}.header.dark{background:var(--d)}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid var(--b);padding-bottom:env(safe-area-inset-bottom)}
+.nav button{flex:1;border:0;background:0;font-size:10px;color:var(--m);padding:8px 2px}
+.nav button.active{color:var(--p);font-weight:700}
+.content{padding:14px 14px 90px}
+.screen{display:none}.screen.active{display:block}
+.action,.item,.info,.dash{background:#fff;border-radius:14px;padding:14px;margin-bottom:10px}
+.action{border:0;width:100%;display:flex;gap:10px;align-items:center;text-align:left;color:#fff}
+.action.u{background:#c0392b}.action.g{background:#2e8b57}.action.b{background:#1a5f7a}.action.a{background:#b45309}
+.badge{display:inline-block;padding:2px 8px;border-radius:16px;font-size:10px;font-weight:700}
+.ok{background:#e8f5ee;color:#2e8b57}.bad{background:#fdf0ef;color:#c0392b}.warn{background:#fef5e7;color:#d68910}.recu{background:#e0f2fe;color:#0369a1}
+.btn-sm{border:0;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:600;margin:4px 4px 0 0}
+.p{background:#2e8b57;color:#fff}.d{background:#c0392b;color:#fff}
+.presence{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.presence button{padding:14px;border-radius:12px;border:2px solid var(--b);background:#fff;font-weight:700}
+.presence .on{border-color:#2e8b57;background:#e8f5ee;color:#2e8b57}
+.presence .off{border-color:#c0392b;background:#fdf0ef;color:#c0392b}
+.filters{display:flex;gap:6px;overflow:auto;margin-bottom:10px}
+.filters button{border:1px solid var(--b);background:#fff;border-radius:16px;padding:7px 12px;white-space:nowrap}
+.filters .on{background:var(--p);color:#fff}
+.note{background:#fef9c3;padding:8px;border-radius:8px;font-size:12px;margin-top:8px}
+.row{display:flex;gap:10px;align-items:center}
+.dot{width:10px;height:10px;border-radius:50%}.g{background:#2e8b57}.r{background:#c0392b}.o{background:#d68910}
+input,textarea{width:100%;padding:10px;border:1px solid var(--b);border-radius:10px;margin:6px 0;font:inherit}
+.full{width:100%;padding:14px;border:0;border-radius:10px;background:var(--p);color:#fff;font-weight:700}
+.muted{color:var(--m);font-size:12px}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:10px 16px;border-radius:20px;opacity:0}
+.toast.show{opacity:1}
+h2{font-size:17px;margin:10px 0}
+</style></head>
+<body>
+<div id="mode"><div class="card"><h1>Logement Plus</h1><p class="muted">Maquette de test</p><p style="margin:16px 0">Choisissez un profil</p><button class="btn btn-p" onclick="go('res')">Je suis un résident</button><button class="btn btn-s" onclick="go('edu')">Je suis un éducateur</button></div></div>
+
+<div id="res" class="app hidden">
+<div class="header"><b>Logement Plus</b><div>Bonjour, Guillaume</div></div>
+<div class="nav">
+<button class="active" data-s="home" onclick="show('home')">Accueil</button>
+<button data-s="msg" onclick="show('msg')">Messages</button>
+<button data-s="rdv" onclick="show('rdv')">RDV</button>
+<button data-s="docs" onclick="show('docs')">Papiers</button>
+<button data-s="dossier" onclick="show('dossier')">Parcours</button>
+</div>
+<div class="content">
+<section id="home" class="screen active">
+<div class="info">Marie a répondu : plombier prévu demain.</div>
+<h2>Vous êtes chez vous ?</h2>
+<div class="presence"><button id="pYes" class="on" onclick="setP(1)">Oui, je suis là</button><button id="pNo" onclick="setP(0)">Je ne serai pas là</button></div>
+<p class="muted" id="pHint">Votre référent voit ça avant de se déplacer.</p>
+<button class="action u" onclick="show('urgence')"><div><b>Aide urgente</b><div>Alerte à toute l'équipe</div></div></button>
+<button class="action g" onclick="show('signal')"><div><b>Signaler un souci</b><div>Petit ou urgent</div></div></button>
+<button class="action b" onclick="show('sante')"><div><b>Suivi santé</b><div>RDV et traitements</div></div></button>
+</section>
+<section id="urgence" class="screen">
+<p><b>Danger immédiat : 15 ou 17.</b></p>
+<p class="muted">L'équipe est notifiée. Si personne ne répond en 15 min, le relais association s'affiche.</p>
+<textarea id="urgTxt" placeholder="Que se passe-t-il ?"></textarea>
+<button class="full" style="background:#c0392b" onclick="document.getElementById('urgOk').classList.remove('hidden');toast('Alerte envoyée à Marie et Julien')">Envoyer l'alerte</button>
+<div id="urgOk" class="hidden item"><b>Alerte envoyée</b><div class="muted">Marie + Julien notifiés • Relais à 15 min</div><span class="badge bad">En attente</span></div>
+<p><a href="#" onclick="show('home')">Retour</a></p>
+</section>
+<section id="signal" class="screen">
+<p>Type : petit problème ou urgent</p>
+<textarea id="desc" placeholder="Ex : le lavabo fuit"></textarea>
+<button class="full" onclick="toast('Signalement envoyé. Statut : reçu');show('home')">Envoyer</button>
+<p><a href="#" onclick="show('home')">Retour</a></p>
+</section>
+<section id="sante" class="screen">
+<div class="item"><b>Jeudi 28 août 14h30</b><div class="muted">Dr Martin • apporter la carte vitale</div></div>
+<button class="action u" onclick="toast('Santé signalée à Marie')"><div><b>Problème de santé</b></div></button>
+<p><a href="#" onclick="show('home')">Retour</a></p>
+</section>
+<section id="msg" class="screen">
+<div class="item">Marie : le plombier passe demain matin.</div>
+<input id="cin" placeholder="Votre message">
+<button class="full" onclick="toast('Message envoyé')">Envoyer</button>
+</section>
+<section id="rdv" class="screen">
+<div class="item"><b>Mardi 26 août 10h30</b><div class="muted">Marie chez vous • apporter papiers CAF</div>
+<button class="btn-sm p" onclick="toast('Je serai là')">Je serai là</button>
+<button class="btn-sm" onclick="toast('Absence signalée')">Je ne serai pas là</button></div>
+</section>
+<section id="docs" class="screen">
+<div class="item"><b>Attestation d'hébergement</b> <span class="badge ok">À jour</span></div>
+<div class="item"><b>Notification CAF</b> <span class="badge warn">Expire bientôt</span></div>
+<div class="item"><b>Carte vitale</b> <span class="badge ok">À jour</span></div>
+<button class="full" onclick="toast('Document ajouté')">Ajouter un papier</button>
+</section>
+<section id="dossier" class="screen">
+<div class="item">Entrée ✓<br>Logement ✓<br>Droits ✓<br>Attestation ✓<br>Compte bancaire — à faire<br>Santé — à faire<br>Suivi régulier — à faire</div>
+</section>
+</div></div>
+
+<div id="edu" class="app hidden">
+<div class="header dark"><b>Espace éducateur</b></div>
+<div class="nav">
+<button class="active" data-s="ehome" onclick="showE('ehome')">Accueil</button>
+<button data-s="dash" onclick="showE('dash')">File</button>
+<button data-s="emsg" onclick="showE('emsg')">Messages</button>
+<button data-s="erdv" onclick="showE('erdv')">Agenda</button>
+<button data-s="edossier" onclick="showE('edossier')">Dossiers</button>
+</div>
+<div class="content">
+<section id="ehome" class="screen active">
+<div class="item" style="background:#fdf0ef"><b>1 alerte urgente</b> • Jean D. • 8 min</div>
+<h2>Présence aujourd'hui</h2>
+<div class="dash row"><span class="dot r"></span><div>Jean D. • absent • alerte lavabo</div></div>
+<div class="dash row"><span class="dot g"></span><div>Guillaume • chez lui • RDV 10h30</div></div>
+<div class="dash row"><span class="dot g"></span><div>Sophie • chez elle • visite 15h</div></div>
+<div class="dash row"><span class="dot o"></span><div>Karim • non renseigné</div></div>
+<button class="action a" onclick="showE('annonce')"><div><b>Annonce à tous</b></div></button>
+<button class="action u" onclick="showE('dash')"><div><b>Ouvrir la file unique</b></div></button>
+</section>
+<section id="dash" class="screen">
+<div class="filters">
+<button class="on" onclick="filt(this,'all')">Tout</button>
+<button onclick="filt(this,'urg')">Urgences</button>
+<button onclick="filt(this,'log')">Logement</button>
+<button onclick="filt(this,'sante')">Santé</button>
+<button onclick="filt(this,'abs')">Absences</button>
+</div>
+<div class="item req" data-k="urg"><b>Jean D. • Aide urgente</b><div class="muted">Marie + Julien notifiés. Relais à 15 min.</div><span class="badge recu" id="st1">Reçu</span><br>
+<button class="btn-sm" onclick="st('st1','Vu','recu')">Vu</button>
+<button class="btn-sm p" onclick="st('st1','Pris en charge','warn')">Je m'en occupe</button>
+<div class="note">Note équipe : situation fragile.</div></div>
+<div class="item req" data-k="log"><b>Jean D. • Lavabo</b><div class="muted">Fuite • photo jointe</div><span class="badge warn" id="st2">Pris en charge</span><br>
+<button class="btn-sm" onclick="st('st2','Artisan prévu','warn')">Artisan prévu</button>
+<button class="btn-sm p" onclick="st('st2','Clos','ok')">Clore</button></div>
+<div class="item req" data-k="sante"><b>Guillaume • Santé</b><div class="muted">À reprendre en entretien</div><span class="badge recu" id="st3">Reçu</span></div>
+<div class="item req" data-k="abs"><b>Jean D. • Absent aujourd'hui</b><div class="muted">Évite un déplacement à vide</div><button class="btn-sm" onclick="toast('Visite reportée')">Reporter</button></div>
+</section>
+<section id="annonce" class="screen">
+<textarea placeholder="Message à tous les résidents"></textarea>
+<button class="full" onclick="toast('Annonce envoyée aux 4 résidents')">Envoyer à tous</button>
+</section>
+<section id="emsg" class="screen">
+<div class="item">Guillaume : Merci beaucoup Marie</div>
+<div class="item">Jean D. : Le lavabo fuit toujours</div>
+</section>
+<section id="erdv" class="screen">
+<div class="item"><b>26 août 10h30</b><div class="muted">Marie • Guillaume • il a dit : je serai là</div>
+<button class="btn-sm" onclick="toast('Visite : personne à la porte')">Personne à la porte</button></div>
+<div class="item"><b>27 août 15h</b><div class="muted">Julien • Sophie • elle est chez elle</div></div>
+<div class="item"><b>29 août 11h</b><div class="muted">Marie • Jean • il a dit : absent</div></div>
+</section>
+<section id="edossier" class="screen">
+<div class="item" onclick="toast('Notes équipe visibles ici')"><b>Guillaume</b><div class="muted">Chez lui • 4 ans • notes Marie + Julien</div></div>
+<div class="item"><b>Sophie M.</b><div class="muted">Chez elle • autonome</div></div>
+<div class="item"><b>Jean D.</b><div class="muted">Absent • suivi fragile</div></div>
+<div class="item"><b>Karim B.</b><div class="muted">Nouveau • 3 semaines</div></div>
+<textarea placeholder="Ajouter une note pour les collègues (invisible au résident)"></textarea>
+<button class="full" onclick="toast('Note partagée avec léquipe')">Partager la note</button>
+</section>
+</div></div>
+
+<div class="toast" id="toast"></div>
+<script>
+function go(m){mode.classList.add('hidden');document.getElementById(m).classList.remove('hidden');}
+function show(n){document.querySelectorAll('#res .screen').forEach(s=>s.classList.remove('active'));document.getElementById(n).classList.add('active');document.querySelectorAll('#res .nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===n));}
+function showE(n){document.querySelectorAll('#edu .screen').forEach(s=>s.classList.remove('active'));document.getElementById(n).classList.add('active');document.querySelectorAll('#edu .nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===n));}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function setP(yes){pYes.className=yes?'on':'';pNo.className=yes?'':'off';pHint.textContent=yes?'Votre référent voit que vous êtes chez vous.':'Votre référent voit que vous ne serez pas là.';toast(yes?'Je suis là':'Absence signalée')}
+function st(id,l,c){const e=document.getElementById(id);e.className='badge '+c;e.textContent=l;toast('Statut : '+l)}
+function filt(btn,k){document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.querySelectorAll('.req').forEach(el=>{el.style.display=(k==='all'||el.dataset.k===k)?'block':'none'})}
+</script>
+</body></html>
